@@ -120,7 +120,7 @@ function Viewport(data) {
   this.torqueX = 0;
   this.torqueY = 0;
 
-  this.ctrlKeyPressed = false;
+  this.isCubeMode = false;
   this.down = false;
   this.upsideDown = false;
 
@@ -131,12 +131,13 @@ function Viewport(data) {
   this.calculatedSide = 0;
 
   function switchToCube () {
+	self.isCubeMode = true;
 	$('.desktop').css('width', '650px');
 	$('.desktop').css('height', '650px');
-	$('.desktop').css('margin-left', '30%');
-	$('.desktop').css('margin-top', '4%');
+	$('.desktop').css('margin-left', '33%');
+	$('.desktop').css('margin-top', '2%');
 	setTimeout(function () {
-		if(self.ctrlKeyPressed) {
+		if(self.isCubeMode) {
 			desktop = $(".desktop").detach();
 			$(".side.active").append(desktop);
 			$('.desktop').css('width', '100%');
@@ -147,7 +148,8 @@ function Viewport(data) {
 	}, 400);
   }
 
-  function switchToDesktop () {	
+  function switchToDesktop () {
+	self.isCubeMode = false;	  
 	desktop = $(".desktop").detach();
 	$("body").prepend(desktop);
  	self.positionX = 360;
@@ -164,14 +166,14 @@ function Viewport(data) {
   
   bindEvent(document, 'keydown', function(e) {
 	if(e.keyCode == 17) {
-		self.ctrlKeyPressed = true;
-		switchToCube();
+		if(!self.isCubeMode) {
+			switchToCube();
+		}
 	}
   });
   
   bindEvent(document, 'keyup', function() {
 	self.down = false;
-	self.ctrlKeyPressed = false;
 	switchToDesktop();
   });
 
@@ -215,8 +217,7 @@ function Viewport(data) {
 events.implement(Viewport);
 Viewport.prototype.animate = function() {
 
-  if(this.ctrlKeyPressed && !$($("body").children()[0]).hasClass('desktop')) {
-
+	if(this.isCubeMode) {
 	  this.distanceX = (this.mouseX - this.lastX);
 	  this.distanceY = (this.mouseY - this.lastY);
 
@@ -314,8 +315,7 @@ Viewport.prototype.animate = function() {
 		this.emit('rotate');
 
 	  }
-   }
-
+	}
 }
 var viewport = new Viewport({
   element: document.getElementsByClassName('cube')[0],

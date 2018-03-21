@@ -32,11 +32,23 @@ function Desktop() {
 
 	that.renderOn = function (html) {
 		desktop = html.div().addClass("desktop").asJQuery();
-		Toolbar().appendTo(desktop);
+		Board().appendTo(desktop);
 	}
 
 	return that;
 
+}
+
+function Board () {
+	
+	var that = htmlCanvas.widget();
+
+	that.renderOn = function (html) {
+		board = html.div().addClass("board").asJQuery();
+		Toolbar().appendTo(board);
+	}
+	
+	return that;
 }
 
 function Toolbar() {
@@ -50,9 +62,11 @@ function Toolbar() {
 		html.img().setAttribute('src', './img/ff.png').asJQuery().appendTo(tool.asJQuery());
 		html.img().setAttribute('src', './img/config.png').asJQuery().appendTo(tool.asJQuery());
 		html.img().setAttribute('src', './img/home.png').asJQuery().appendTo(tool.asJQuery());
-		html.img().setAttribute('src', './img/time.png').asJQuery().appendTo(tool.asJQuery());
+		html.img().setAttribute('src', './img/desktops.png').asJQuery().appendTo(tool.asJQuery());
 		tool.asJQuery().appendTo(toolbar.asJQuery());
 	}
 	
+	
 	return that;
 }
+
