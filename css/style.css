@@ -1,0 +1,237 @@
+*, *:before, *:after {
+  -moz-box-sizing: border-box;
+  -webkit-box-sizing: border-box;
+  box-sizing: border-box; 
+}
+
+html, 
+body,
+#wrapper,
+.viewport {
+	width:100%;
+	height:100%;
+}
+
+body {
+  background: #000;
+  font-family: 'HelveticaNeue-Light', 'Helvetica Neue Light', 'Helvetica Neue', Helvetica, Arial, 'Lucida Grande', sans-serif;
+}
+
+#wrapper {
+  padding-top: 5%;  
+}
+
+.viewport {
+  -webkit-perspective: 1600px;
+  -moz-perspective: 1600px;
+  -ms-perspective: 1600px;
+  -o-perspective: 1600px;
+  perspective: 1600px;
+  -webkit-perspective-origin: 50% 800px;
+  -moz-perspective-origin: 50% 800px;
+  -ms-perspective-origin: 50% 800px;
+  -o-perspective-origin: 50% 800px;
+  perspective-origin: 50% 800px;
+  -webkit-transform: scale(0.8, 0.8);
+  -moz-transform: scale(0.8, 0.8);
+  -ms-transform: scale(0.8, 0.8);
+  -o-transform: scale(0.8, 0.8);
+  transform: scale(0.8, 0.8);
+  -webkit-box-reflect: below 250px -webkit-gradient(linear, left top, left bottom, from(transparent), color-stop(0%, transparent), to(rgba(250, 250, 250, 0.3))); }
+
+.cube {
+  position: relative;
+  margin: 0 auto;
+  height: 800px;
+  width: 800px;
+  -webkit-transform-style: preserve-3d;
+  -moz-transform-style: preserve-3d;
+  -ms-transform-style: preserve-3d;
+  -o-transform-style: preserve-3d;
+  transform-style: preserve-3d;
+  -webkit-transform: rotateX(360deg) rotateY(0deg);
+  -moz-transform: rotateX(360deg) rotateY(0deg);
+  -ms-transform: rotateX(360deg) rotateY(0deg);
+  -o-transform: rotateX(360deg) rotateY(0deg);
+  transform: rotateX(360deg) rotateY(0deg); 
+}
+
+.cube > div {
+  overflow: hidden;
+  position: absolute;
+  opacity: 0.6;
+  height: 100%;
+  width: 100%;
+  background-image: url("./../img/bg.jpg");
+  background-size: 100%;
+  -webkit-touch-callout: none;
+  -moz-touch-callout: none;
+  -ms-touch-callout: none;
+  -o-touch-callout: none;
+  touch-callout: none;
+  -webkit-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+  -o-user-select: none;
+  user-select: none; 
+  -webkit-box-shadow: inset 0px 0px 5px 0px rgba(0,0,0,0.75);
+  -moz-box-shadow: inset 0px 0px 5px 0px rgba(0,0,0,0.75);
+  box-shadow: inset 0px 0px 5px 0px rgba(0,0,0,0.75);
+}
+
+.cube > div > div.cube-image {
+  width: 100%;
+  height: 100%;
+  position: absolute;
+  -webkit-transform: rotate(180deg);
+  -moz-transform: rotate(180deg);
+  -ms-transform: rotate(180deg);
+  -o-transform: rotate(180deg);
+  transform: rotate(180deg);
+  color: #1b9bd8;
+  -webkit-transition: color 600ms;
+  -moz-transition: color 600ms;
+  -ms-transition: color 600ms;
+  -o-transition: color 600ms;
+  transition: color 600ms; 
+}
+
+.cube > div > div.cube-image.active {
+    color: red; 
+}
+
+.cube > div:hover {
+  cursor: pointer; }
+
+.cube > div:active {
+  cursor: pointer; }
+
+.cube > div:first-child {
+  -webkit-transform: rotateX(90deg) translateZ(25rem);
+  -moz-transform: rotateX(90deg) translateZ(25rem);
+  -ms-transform: rotateX(90deg) translateZ(25rem);
+  -o-transform: rotateX(90deg) translateZ(25rem);
+  transform: rotateX(90deg) translateZ(25rem);
+  outline: 1px solid transparent; 
+}
+
+.cube > div:nth-child(2) {
+  -webkit-transform: translateZ(25rem);
+  -moz-transform: translateZ(25rem);
+  -ms-transform: translateZ(25rem);
+  -o-transform: translateZ(25rem);
+  transform: translateZ(25rem);
+  outline: 1px solid transparent; }
+
+.cube > div:nth-child(3) {
+  -webkit-transform: rotateY(90deg) translateZ(25rem);
+  -moz-transform: rotateY(90deg) translateZ(25rem);
+  -ms-transform: rotateY(90deg) translateZ(25rem);
+  -o-transform: rotateY(90deg) translateZ(25rem);
+  transform: rotateY(90deg) translateZ(25rem);
+  outline: 1px solid transparent; }
+
+.cube > div:nth-child(4) {
+  -webkit-transform: rotateY(180deg) translateZ(25rem);
+  -moz-transform: rotateY(180deg) translateZ(25rem);
+  -ms-transform: rotateY(180deg) translateZ(25rem);
+  -o-transform: rotateY(180deg) translateZ(25rem);
+  transform: rotateY(180deg) translateZ(25rem);
+  outline: 1px solid transparent; 
+}
+
+.cube > div:nth-child(5) {
+  -webkit-transform: rotateY(-90deg) translateZ(25rem);
+  -moz-transform: rotateY(-90deg) translateZ(25rem);
+  -ms-transform: rotateY(-90deg) translateZ(25rem);
+  -o-transform: rotateY(-90deg) translateZ(25rem);
+  transform: rotateY(-90deg) translateZ(25rem);
+  outline: 1px solid transparent; 
+}
+
+.cube > div:nth-child(6) {
+  -webkit-transform: rotateX(-90deg) rotate(180deg) translateZ(25rem);
+  -moz-transform: rotateX(-90deg) rotate(180deg) translateZ(25rem);
+  -ms-transform: rotateX(-90deg) rotate(180deg) translateZ(25rem);
+  -o-transform: rotateX(-90deg) rotate(180deg) translateZ(25rem);
+  transform: rotateX(-90deg) rotate(180deg) translateZ(25rem);
+  outline: 1px solid transparent; 
+}
+
+object {
+  opacity: 0.5; 
+}
+
+object:hover {
+  opacity: 1; 
+}
+
+@media (max-width: 1600px) {
+  .viewport {
+    -webkit-transform: scale(0.6, 0.6);
+    -moz-transform: scale(0.6, 0.6);
+    -ms-transform: scale(0.6, 0.6);
+    -o-transform: scale(0.6, 0.6);
+    transform: scale(0.6, 0.6); 
+	} 
+}
+
+.desktop {
+	position: absolute;
+	width: 100%;
+	height: 100%;
+	float: left;
+	z-index: 100;
+	background-image: url("./../img/bg.jpg");
+ 	background-size: 100%;
+	transition: all 0.4s ease-in-out;
+}
+
+.toolbar {
+	position: absolute;
+	bottom: 0px;
+	left: 33%;
+	width: 30%;
+	height: 10%;
+	z-index: 1;
+}
+
+.pedestal {
+	background: #000;
+	opacity: 0.7;
+	width: 100%;
+	height: 110%;
+	margin-bottom: 0px;
+	padding: 0px;
+	position: absolute;
+	-webkit-transform: perspective(200px) rotateX(40deg); 
+	z-index: -1;
+}
+
+.toolbar .tool {
+	z-index: 100;
+	position: absolute;
+	width: 100%;
+	height: 90%;
+	padding-left: 2%;
+	padding-right: 2%;
+}
+
+.toolbar img {
+	z-index: 100;
+	float: left;
+	width: 15%;
+	margin-left: 4%;
+	margin-right: 4%;
+	height: 100%;
+	cursor: pointer;
+	transition: all 0.2s ease-in-out;
+}
+
+.toolbar img:hover {
+	width: 19%;
+	height: 120%;
+	margin-left: 2%;
+	margin-right: 2%;
+	margin-top: -2%;
+}
