@@ -22,7 +22,6 @@ function Cube() {
 		$($('.cube-image')[1]).parent().addClass("active");
 	}
 	
-	
 	return that;
 }
 

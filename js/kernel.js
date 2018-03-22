@@ -154,6 +154,10 @@ function Viewport(data) {
 	self.isCubeMode = false;	  
 	currentBoard = $(".board.current").detach();
 	$(".desktop").prepend(currentBoard);
+	currentBoard.css('width', '100%');
+	currentBoard.css('height', '100%');
+	currentBoard.css('margin-left', '0px');
+	currentBoard.css('margin-top', '0px');
  	self.positionX = 360;
   	self.positionY = 0;  
   }
