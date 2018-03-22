@@ -32,7 +32,12 @@ function Desktop() {
 
 	that.renderOn = function (html) {
 		desktop = html.div().addClass("desktop").asJQuery();
+		Cube().appendTo($("body"));	
 		Board().appendTo(desktop);
+		for(var i=2; i<5; i++) {
+			Board().appendTo($($('.side')[i]));
+		}
+		$(desktop.children()[0]).addClass("current");
 	}
 
 	return that;
