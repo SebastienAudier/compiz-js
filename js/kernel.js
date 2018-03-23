@@ -44,6 +44,7 @@ Events.prototype.emit = function(name, args) {
       if (events[i]) {
         events[i].call(this, args);
         if (events[i].once) {
+		  console.log(events[i]);
           delete events[i];
         }
       }
@@ -90,11 +91,11 @@ var prefix = (function () {
 })();
 
 function bindEvent(element, type, handler) {
-  if(element.addEventListener) {
-    element.addEventListener(type, handler, false);
-  } else {
-    element.attachEvent('on' + type, handler);
-  }
+	if(element.addEventListener) {
+		element.addEventListener(type, handler, false);
+	} else {
+		element.attachEvent('on' + type, handler);
+	}
 }
 
 function Viewport(data) {
@@ -132,34 +133,34 @@ function Viewport(data) {
 
   function switchToCube () {
 	self.isCubeMode = true;
-	
-	currentBoard = $(".board.current");
-	currentBoard.css('width', '650px');
-	currentBoard.css('height', '650px');
-	currentBoard.css('margin-left', '33%');
-	currentBoard.css('margin-top', '2%');
+	board = $(".board.current");
+	board.css('width', '650px');
+	board.css('height', '650px');
+	board.css('margin-left', '33%');
+	board.css('margin-top', '5%');
 	setTimeout(function () {
 		if(self.isCubeMode) {
-			currentBoard.detach();
-			$(".side.active").append(currentBoard);
-			currentBoard.css('width', '100%');
-			currentBoard.css('height', '100%');
-			currentBoard.css('margin-left', '0px');
-			currentBoard.css('margin-top', '0px');
+			board.detach();
+			$(".side.active").append(board);
+			board.css('width', '100%');
+			board.css('height', '100%');
+			board.css('margin-left', '0px');
+			board.css('margin-top', '0px');
 		}		
-	}, 300);
+	}, 500);
   }
-
+  
   function switchToDesktop () {
-	self.isCubeMode = false;	  
-	currentBoard = $(".board.current").detach();
-	$(".desktop").prepend(currentBoard);
+	currentBoard = $(".board.current");
+	if(self.isCubeMode) {
+		currentBoard.detach();
+		$(".desktop").prepend(currentBoard);
+	}
 	currentBoard.css('width', '100%');
 	currentBoard.css('height', '100%');
 	currentBoard.css('margin-left', '0px');
 	currentBoard.css('margin-top', '0px');
- 	self.positionX = 360;
-  	self.positionY = 0;  
+	self.isCubeMode = false;
   }
 
   bindEvent(document, 'mousedown', function() {
@@ -171,7 +172,7 @@ function Viewport(data) {
   });
   
   bindEvent(document, 'keydown', function(e) {
-	if(e.keyCode == 17) {
+	if(e.keyCode == 18) {
 		if(!self.isCubeMode) {
 			switchToCube();
 		}
@@ -218,8 +219,8 @@ function Viewport(data) {
   });  
 
   setInterval(this.animate.bind(this), this.fps);
-
 }
+
 events.implement(Viewport);
 Viewport.prototype.animate = function() {
 

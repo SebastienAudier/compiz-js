@@ -18,7 +18,6 @@ function Cube() {
 				side.css('opacity', '0.6');
 			}
 		}
-		
 		$($('.cube-image')[1]).parent().addClass("active");
 	}
 	
@@ -36,7 +35,9 @@ function Desktop() {
 		for(var i=2; i<5; i++) {
 			Board().appendTo($($('.side')[i]));
 		}
-		$(desktop.children()[0]).addClass("current");
+		mainBoard = $(desktop.children()[0]);
+		mainBoard.addClass("current");
+		Dialog().appendTo(mainBoard);
 	}
 
 	return that;
@@ -70,6 +71,18 @@ function Toolbar() {
 		tool.asJQuery().appendTo(toolbar.asJQuery());
 	}
 	
+	
+	return that;
+}
+
+function Dialog () {
+	
+	var that = htmlCanvas.widget();
+
+	that.renderOn = function (html) {
+		dialog = html.div().addClass("dialog").asJQuery();
+		dialog.draggable();
+	}
 	
 	return that;
 }
