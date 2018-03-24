@@ -81,7 +81,14 @@ function Dialog () {
 
 	that.renderOn = function (html) {
 		dialog = html.div().addClass("dialog").asJQuery();
-		dialog.draggable();
+		dialog.draggable({
+			stop: function () {
+				var l = ( 100 * parseFloat($(this).position().left / parseFloat($(this).parent().width())) ) + "%" ;
+				var t = ( 100 * parseFloat($(this).position().top / parseFloat($(this).parent().height())) ) + "%" ;
+				$(this).css("left", l);
+				$(this).css("top", t);
+			}
+		});
 	}
 	
 	return that;
