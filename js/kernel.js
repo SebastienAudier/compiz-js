@@ -1,7 +1,9 @@
 var events = new Events();
+
 events.add = function(obj) {
   obj.events = { };
 }
+
 events.implement = function(fn) {
   fn.prototype = Object.create(Events.prototype);
 }
@@ -9,6 +11,7 @@ events.implement = function(fn) {
 function Events() {
   this.events = { };
 }
+
 Events.prototype.on = function(name, fn) {
   var events = this.events[name];
   if (events == undefined) {
@@ -22,6 +25,7 @@ Events.prototype.on = function(name, fn) {
   }
   return this;
 }
+
 Events.prototype.once = function(name, fn) {
   var events = this.events[name];
   fn.once = true;
@@ -36,6 +40,7 @@ Events.prototype.once = function(name, fn) {
   }
   return this;
 }
+
 Events.prototype.emit = function(name, args) {
   var events = this.events[name];
   if (events) {
@@ -44,30 +49,10 @@ Events.prototype.emit = function(name, args) {
       if (events[i]) {
         events[i].call(this, args);
         if (events[i].once) {
-		  console.log(events[i]);
           delete events[i];
         }
       }
     }
-  }
-  return this;
-}
-Events.prototype.unbind = function(name, fn) {
-  if (name) {
-    var events = this.events[name];
-    if (events) {
-      if (fn) {
-        var i = events.indexOf(fn);
-        if (i != -1) {
-          delete events[i];
-        }
-      } else {
-        delete this.events[name];
-      }
-    }
-  } else {
-    delete this.events;
-    this.events = { };
   }
   return this;
 }
@@ -131,7 +116,7 @@ function Viewport(data) {
   this.currentSide = 0;
   this.calculatedSide = 0;
 
-  function switchToCube () {
+  this.switchToCube = function() {
 	self.isCubeMode = true;
 	board = $(".board.current");
 	board.css('width', '650px');
@@ -146,11 +131,12 @@ function Viewport(data) {
 			board.css('height', '100%');
 			board.css('margin-left', '0px');
 			board.css('margin-top', '0px');
+			board.css(userPrefix.js + 'Transform', 'rotateX(0deg) rotateY(0deg)')
 		}		
 	}, 500);
   }
   
-  function switchToDesktop () {
+  this.switchToDesktop = function() {
 	currentBoard = $(".board.current");
 	if(self.isCubeMode) {
 		currentBoard.detach();
@@ -172,16 +158,16 @@ function Viewport(data) {
   });
   
   bindEvent(document, 'keydown', function(e) {
-	if(e.keyCode == 18) {
+	if(e.keyCode == 17) {
 		if(!self.isCubeMode) {
-			switchToCube();
+			self.switchToCube();
 		}
 	}
   });
   
   bindEvent(document, 'keyup', function() {
 	self.down = false;
-	switchToDesktop();
+	self.switchToDesktop();
   });
 
   bindEvent(document, 'mousemove', function(e) {
@@ -223,7 +209,7 @@ function Viewport(data) {
 
 events.implement(Viewport);
 Viewport.prototype.animate = function() {
-
+	
 	if(this.isCubeMode) {
 	  this.distanceX = (this.mouseX - this.lastX);
 	  this.distanceY = (this.mouseY - this.lastY);
@@ -310,9 +296,8 @@ Viewport.prototype.animate = function() {
 		  this.currentSide = this.calculatedSide;
 		  this.emit('sideChange');
 		}
-
 	  }
-
+	  
 	  this.element.style[userPrefix.js + 'Transform'] = 'rotateX(' + this.positionY + 'deg) rotateY(' + this.positionX + 'deg)';
 
 	  if(this.positionY != this.previousPositionY || this.positionX != this.previousPositionX) {
@@ -324,9 +309,10 @@ Viewport.prototype.animate = function() {
 	  }
 	}
 }
+
 var viewport = new Viewport({
   element: document.getElementsByClassName('cube')[0],
-  fps: 20,
+  fps: 30,
   sensivity: .1,
   sensivityFade: .93,
   speed: 1,
@@ -350,6 +336,7 @@ function Cube(data) {
     self.sideChange();
   });
 }
+
 Cube.prototype.rotateSides = function() {
   var viewport = this.viewport;
   if(viewport.positionY > 90 && viewport.positionY < 270) {
@@ -360,6 +347,7 @@ Cube.prototype.rotateSides = function() {
     this.sides[5].getElementsByClassName('cube-image')[0].style[userPrefix.js + 'Transform'] = 'rotate(' + -(viewport.positionX + 180 - viewport.torqueX) + 'deg)';
   }
 }
+
 Cube.prototype.upsideDown = function(obj) {
 
   var deg = (obj.upsideDown == true) ? '180deg' : '0deg';
@@ -370,6 +358,7 @@ Cube.prototype.upsideDown = function(obj) {
   }
 
 }
+
 Cube.prototype.sideChange = function() {
 
   for(var i = 0; i < this.sides.length; ++i) {
@@ -377,9 +366,8 @@ Cube.prototype.sideChange = function() {
   }
 
   this.sides[this.viewport.currentSide - 1].className = 'side active';
-  $(".side .board.current").removeClass("current");
+  $(".board").removeClass("current");
   $(".side.active .board").addClass("current");
-
 }
 
 new Cube({

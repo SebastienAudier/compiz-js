@@ -260,6 +260,6 @@ object:hover {
 	left: 10%;
 	width: 10%;
 	height: 20%;
-	background: #000;
-	opacity: 0.9;
+	background: red;
+	opacity: 1;
 }
