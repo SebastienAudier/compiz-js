@@ -308,9 +308,6 @@ Viewport.prototype.animate = function() {
 	  if(this.positionY != this.previousPositionY || this.positionX != this.previousPositionX) {
 		this.previousPositionY = this.positionY;
 		this.previousPositionX = this.positionX;
-
-		this.emit('rotate');
-
 	  }
 	}
 }
@@ -331,26 +328,12 @@ function Cube(data) {
   this.sides = this.element.getElementsByClassName('side');
 
   this.viewport = data.viewport;
-  this.viewport.on('rotate', function() {
-    self.rotateSides();
-  });
   this.viewport.on('upsideDown', function(obj) {
     self.upsideDown(obj);
   });
   this.viewport.on('sideChange', function() {
     self.sideChange();
   });
-}
-
-Cube.prototype.rotateSides = function() {
-  var viewport = this.viewport;
-  if(viewport.positionY > 90 && viewport.positionY < 270) {
-    this.sides[0].getElementsByClassName('cube-image')[0].style[userPrefix.js + 'Transform'] = 'rotate(' + (viewport.positionX + viewport.torqueX) + 'deg)';
-    this.sides[5].getElementsByClassName('cube-image')[0].style[userPrefix.js + 'Transform'] = 'rotate(' + -(viewport.positionX + 180 + viewport.torqueX) + 'deg)';
-  } else {
-    this.sides[0].getElementsByClassName('cube-image')[0].style[userPrefix.js + 'Transform'] = 'rotate(' + (viewport.positionX - viewport.torqueX) + 'deg)';
-    this.sides[5].getElementsByClassName('cube-image')[0].style[userPrefix.js + 'Transform'] = 'rotate(' + -(viewport.positionX + 180 - viewport.torqueX) + 'deg)';
-  }
 }
 
 Cube.prototype.upsideDown = function(obj) {
