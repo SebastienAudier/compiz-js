@@ -38,7 +38,7 @@ body {
   -ms-transform: scale(0.8, 0.8);
   -o-transform: scale(0.8, 0.8);
   transform: scale(0.8, 0.8);
-  -webkit-box-reflect: below 10px -webkit-gradient(linear, left top, left bottom, from(transparent), color-stop(0%, transparent), to(rgba(250, 250, 250, 0.5))); }
+  -webkit-box-reflect: below 30% -webkit-gradient(linear, left top, left bottom, from(transparent), color-stop(0%, transparent), to(rgba(250, 250, 250, 0.4))); }
 
 .cube {
   position: relative;
@@ -122,41 +122,43 @@ body {
   -ms-transform: translateZ(300px);
   -o-transform: translateZ(300px);
   transform: translateZ(300px);
-  outline: 1px solid transparent; }
+  outline: 1px solid transparent; 
+}
 
 .cube > div:nth-child(3) {
-  -webkit-transform: rotateY(90deg) translateZ(300px);
-  -moz-transform: rotateY(90deg) translateZ(300px);
-  -ms-transform: rotateY(90deg) translateZ(300px);
-  -o-transform: rotateY(90deg) translateZ(300px);
-  transform: rotateY(90deg) translateZ(300px);
-  outline: 1px solid transparent; }
+	-webkit-transform: rotateY(90deg) translateZ(300px);
+	-moz-transform: rotateY(90deg) translateZ(300px);
+	-ms-transform: rotateY(90deg) translateZ(300px);
+	-o-transform: rotateY(90deg) translateZ(300px);
+	transform: rotateY(90deg) translateZ(300px);
+	outline: 1px solid transparent; 
+}
 
 .cube > div:nth-child(4) {
-  -webkit-transform: rotateY(180deg) translateZ(300px);
-  -moz-transform: rotateY(180deg) translateZ(300px);
-  -ms-transform: rotateY(180deg) translateZ(300px);
-  -o-transform: rotateY(180deg) translateZ(300px);
-  transform: rotateY(180deg) translateZ(300px);
-  outline: 1px solid transparent; 
+	-webkit-transform: rotateY(180deg) translateZ(300px);
+	-moz-transform: rotateY(180deg) translateZ(300px);
+	-ms-transform: rotateY(180deg) translateZ(300px);
+	-o-transform: rotateY(180deg) translateZ(300px);
+	transform: rotateY(180deg) translateZ(300px);
+	outline: 1px solid transparent; 
 }
 
 .cube > div:nth-child(5) {
-  -webkit-transform: rotateY(-90deg) translateZ(300px);
-  -moz-transform: rotateY(-90deg) translateZ(300px);
-  -ms-transform: rotateY(-90deg) translateZ(300px);
-  -o-transform: rotateY(-90deg) translateZ(300px);
-  transform: rotateY(-90deg) translateZ(300px);
-  outline: 1px solid transparent; 
+	-webkit-transform: rotateY(-90deg) translateZ(300px);
+	-moz-transform: rotateY(-90deg) translateZ(300px);
+	-ms-transform: rotateY(-90deg) translateZ(300px);
+	-o-transform: rotateY(-90deg) translateZ(300px);
+	transform: rotateY(-90deg) translateZ(300px);
+	outline: 1px solid transparent; 
 }
 
 .cube > div:nth-child(6) {
-  -webkit-transform: rotateX(-90deg) rotate(180deg) translateZ(300px);
-  -moz-transform: rotateX(-90deg) rotate(180deg) translateZ(300px);
-  -ms-transform: rotateX(-90deg) rotate(180deg) translateZ(300px);
-  -o-transform: rotateX(-90deg) rotate(180deg) translateZ(300px);
-  transform: rotateX(-90deg) rotate(180deg) translateZ(300px);
-  outline: 1px solid transparent; 
+	-webkit-transform: rotateX(-90deg) rotate(180deg) translateZ(300px);
+	-moz-transform: rotateX(-90deg) rotate(180deg) translateZ(300px);
+	-ms-transform: rotateX(-90deg) rotate(180deg) translateZ(300px);
+	-o-transform: rotateX(-90deg) rotate(180deg) translateZ(300px);
+	transform: rotateX(-90deg) rotate(180deg) translateZ(300px);
+	outline: 1px solid transparent; 
 }
 
 object {
@@ -260,6 +262,24 @@ object:hover {
 	left: 10%;
 	width: 10%;
 	height: 20%;
-	background: red;
+	background: #ececec;
 	opacity: 1;
+	-webkit-border-radius: 8px;
+	-moz-border-radius: 8px;
+	border-radius: 8px;
+	box-shadow: 0px 3px 4px #000;
+}
+
+.dialog .head {
+	height: 24px;
+	width: 100%;
+	float: left;
+	cursor: -webkit-grab;
+	background: #1b1b1b;
+	-webkit-border-top-right-radius: 8px;
+	-webkit-border-top-left-radius: 8px;
+	-moz-border-radius-topright: 8px;
+	-moz-border-radius-topleft: 8px;
+	border-top-right-radius: 8px;
+	border-top-left-radius: 8px;
 }

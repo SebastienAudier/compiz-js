@@ -81,12 +81,29 @@ function Dialog () {
 
 	that.renderOn = function (html) {
 		dialog = html.div().addClass("dialog").asJQuery();
+		html.div().addClass("head").asJQuery().appendTo(dialog);
+		html.div().addClass("content").asJQuery().appendTo(dialog);
 		dialog.draggable({
+			cancel: ".content",
 			stop: function () {
 				var l = ( 100 * parseFloat($(this).position().left / parseFloat($(this).parent().width())) ) + "%" ;
 				var t = ( 100 * parseFloat($(this).position().top / parseFloat($(this).parent().height())) ) + "%" ;
 				$(this).css("left", l);
 				$(this).css("top", t);
+			}
+		});
+		dialog.resizable({
+			autoHide: true,
+			stop: function(e, ui) {
+					 var parent = ui.element.parent();
+					 ui.element.css({
+						width: ui.element.width()/parent.width()*100+"%",
+						height: ui.element.height()/parent.height()*100+"%"
+					 });
+					var l = ( 100 * parseFloat($(this).position().left / parseFloat($(this).parent().width())) ) + "%" ;
+					var t = ( 100 * parseFloat($(this).position().top / parseFloat($(this).parent().height())) ) + "%" ;
+					$(this).css("left", l);
+					$(this).css("top", t);
 			}
 		});
 	}

@@ -126,7 +126,12 @@ function Viewport(data) {
 	setTimeout(function () {
 		if(self.isCubeMode) {
 			board.detach();
-			$(".side.active").append(board);
+			for(var i=1; i<$(".side").length -1; i++) {
+				side = $($(".side")[i]);
+				if(side.find('.board').length === 0) {
+					side.append(board);
+				}
+			}
 			board.css('width', '100%');
 			board.css('height', '100%');
 			board.css('margin-left', '0px');
