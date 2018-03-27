@@ -83,9 +83,11 @@ function Dialog () {
 		dialog = html.div().addClass("dialog").asJQuery();
 		head = html.div().addClass("head").asJQuery();
 		head.appendTo(dialog);
-		html.span("x").asJQuery().appendTo(head);
+		html.span("x").asJQuery().click(function () { close($(this))}).appendTo(head);
 		html.span("\u25a0").addClass("close").asJQuery().appendTo(head);
 		content = html.div().addClass("content").asJQuery();
+		html.h2("How to display the cube ?").asJQuery().appendTo(dialog);
+		html.p("Long press on ctrl and move mouse...").asJQuery().appendTo(dialog);
 		content.appendTo(dialog);
 		dialog.draggable({
 			cancel: ".content",
@@ -106,6 +108,10 @@ function Dialog () {
 		});
 	}
 
+	function close(element) {
+		element.parent().parent().remove();
+	}
+	
 	function updatePosition(dialog) {
 		var l = ( 100 * parseFloat(dialog.position().left / parseFloat(dialog.parent().width())) ) + "%" ;
 		var t = ( 100 * parseFloat(dialog.position().top / parseFloat(dialog.parent().height())) ) + "%" ;
