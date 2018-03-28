@@ -12,13 +12,11 @@ function Cube() {
 		for(var i=0; i<6; i++) {
 			side = html.div().addClass('side').asJQuery();
 			side.appendTo(cube);
-			cubeImage = html.div().addClass('cube-image').asJQuery();
-			cubeImage.appendTo(side);
 			if(i == 0 && i == 5) {
 				side.css('opacity', '0.6');
 			}
 		}
-		$($('.cube-image')[1]).parent().addClass("active");
+		$($('.side')[1]).addClass("active");
 	}
 	
 	return that;
@@ -37,7 +35,7 @@ function Desktop() {
 		}
 		mainBoard = $(desktop.children()[0]);
 		mainBoard.addClass("current");
-		Dialog().appendTo(mainBoard);
+		Dialog(Introduction()).appendTo(mainBoard);
 	}
 
 	return that;
@@ -64,18 +62,21 @@ function Toolbar() {
 		toolbar = html.div().addClass("toolbar");
 		html.div().addClass("pedestal").asJQuery().appendTo(toolbar.asJQuery());
 		tool = html.div().addClass("tool");
-		html.img().setAttribute('src', './img/ff.png').asJQuery().appendTo(tool.asJQuery());
+		html.img().setAttribute('src', './img/ff.png').click(function () {openIntroduction()}).asJQuery().appendTo(tool.asJQuery());
 		html.img().setAttribute('src', './img/config.png').asJQuery().appendTo(tool.asJQuery());
 		html.img().setAttribute('src', './img/home.png').asJQuery().appendTo(tool.asJQuery());
 		html.img().setAttribute('src', './img/desktops.png').asJQuery().appendTo(tool.asJQuery());
 		tool.asJQuery().appendTo(toolbar.asJQuery());
 	}
 	
+	function openIntroduction() {
+		Dialog(Introduction()).appendTo($(".board.current"));
+	}
 	
 	return that;
 }
 
-function Dialog () {
+function Dialog (aWidget) {
 	
 	var that = htmlCanvas.widget();
 
@@ -86,8 +87,7 @@ function Dialog () {
 		html.span("x").asJQuery().click(function () { close($(this))}).appendTo(head);
 		html.span("\u25a0").addClass("close").asJQuery().appendTo(head);
 		content = html.div().addClass("content").asJQuery();
-		html.h2("How to display the cube ?").asJQuery().appendTo(dialog);
-		html.p("Long press on ctrl and move mouse...").asJQuery().appendTo(dialog);
+		aWidget.appendTo(content);
 		content.appendTo(dialog);
 		dialog.draggable({
 			cancel: ".content",
@@ -122,3 +122,14 @@ function Dialog () {
 	return that;
 }
 
+function Introduction () {	
+	
+	var that = htmlCanvas.widget();
+	
+	that.renderOn = function (html) {
+		html.span("How to display cube ?").addClass("title");
+		html.span('Long press on "ctrl" and move the mouse...');
+	}
+	
+	return that;
+}

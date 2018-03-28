@@ -126,9 +126,11 @@ function Viewport(data) {
 	setTimeout(function () {
 		if(self.isCubeMode) {
 			board.detach();
+			var currentSide;
 			for(var i=1; i<$(".side").length -1; i++) {
 				side = $($(".side")[i]);
 				if(side.find('.board').length === 0) {
+					currentSide = side;
 					side.append(board);
 				}
 			}
@@ -136,21 +138,34 @@ function Viewport(data) {
 			board.css('height', '100%');
 			board.css('margin-left', '0px');
 			board.css('margin-top', '0px');
-			board.css(userPrefix.js + 'Transform', 'rotateX(0deg) rotateY(0deg)')
+			translateZ = 400; 
+			for(var i=0; i<$(".board.current .dialog").length; i++) {
+				dialog = $($(".board.current .dialog")[i]);	
+				width = dialog.css("width");
+				height = dialog.css("height");
+				dialog.detach();
+				$(".cube").append(dialog);
+				dialog.css("width", width);
+				dialog.css("height", height);
+				//dialog.css("transform", "rotateX(" + rotateX + "deg) rotateY(" + rotateY + "deg) translateZ(400px)");
+				dialog.css("transform", "translateZ(" + translateZ + "px)");
+				translateZ += 100;
+			} 
 		}		
 	}, 500);
   }
   
   this.switchToDesktop = function() {
-	currentBoard = $(".board.current");
+	board = $(".board.current");
 	if(self.isCubeMode) {
-		currentBoard.detach();
-		$(".desktop").prepend(currentBoard);
+		board.detach();
+		$(".desktop").prepend(board);
 	}
-	currentBoard.css('width', '100%');
-	currentBoard.css('height', '100%');
-	currentBoard.css('margin-left', '0px');
-	currentBoard.css('margin-top', '0px');
+	board.css('width', '100%');
+	board.css('height', '100%');
+	board.css('margin-left', '0px');
+	board.css('margin-top', '0px');
+
 	self.isCubeMode = false;
   }
 

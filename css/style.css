@@ -63,8 +63,6 @@ body {
   opacity: 0.6;
   height: 100%;
   width: 100%;
-  background-image: url("./../img/bg.jpg");
-  background-size: 100%;
   -webkit-touch-callout: none;
   -moz-touch-callout: none;
   -ms-touch-callout: none;
@@ -80,25 +78,9 @@ body {
   box-shadow: inset 0px 0px 5px 0px rgba(0,0,0,0.75);
 }
 
-.cube > div > div.cube-image {
-  width: 100%;
-  height: 100%;
-  position: absolute;
-  -webkit-transform: rotate(180deg);
-  -moz-transform: rotate(180deg);
-  -ms-transform: rotate(180deg);
-  -o-transform: rotate(180deg);
-  transform: rotate(180deg);
-  color: #1b9bd8;
-  -webkit-transition: color 600ms;
-  -moz-transition: color 600ms;
-  -ms-transition: color 600ms;
-  -o-transition: color 600ms;
-  transition: color 600ms; 
-}
-
-.cube > div > div.cube-image.active {
-    color: red; 
+.cube .side {
+	background-image: url("./../img/bg.jpg");
+	background-size: 100%;
 }
 
 .cube > div:hover {
@@ -260,21 +242,23 @@ object:hover {
 	position: absolute;
 	top: 5%;
 	left: 10%;
-	width: 20%;
-	height: 30%;
+	width: 30%;
+	height: 40%;
 	background: #ececec;
 	opacity: 1;
 	-webkit-border-radius: 10px;
 	-moz-border-radius: 10px;
 	border-radius: 10px;
 	box-shadow: 0px 3px 4px #000;
-}
+} 
 
 .dialog .head {
 	height: 24px;
 	width: 100%;
 	float: left;
-	cursor: -webkit-grab;
+	cursor: move;
+    cursor: -moz-move;
+    cursor: -webkit-move;
 	background: #1b1b1b;
 	-webkit-border-top-right-radius: 8px;
 	-webkit-border-top-left-radius: 8px;
@@ -310,3 +294,30 @@ object:hover {
 	font-size: 19px;
 	padding-top: 0px;
 }
+
+.dialog .content {
+	float: left;
+	width: 100%;
+	height: 100%;
+}
+
+.dialog .content > * {
+	float: left;
+	width: 100%;
+	margin: 10px;
+	transition: all 0.5s ease-in-out;
+}
+
+.dialog .content .title {
+    font-size: 18px;
+	font-weight: bold;
+}
+
+.cube .dialog .content > * {
+	font-size: 6px;
+}
+
+.cube .dialog .content .title {
+	font-size: 10px;
+}
+
