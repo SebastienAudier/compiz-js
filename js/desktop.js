@@ -79,6 +79,7 @@ function Toolbar() {
 function Dialog (aWidget) {
 	
 	var that = htmlCanvas.widget();
+	var dialog;
 
 	that.renderOn = function (html) {
 		dialog = html.div().addClass("dialog").asJQuery();
@@ -89,14 +90,15 @@ function Dialog (aWidget) {
 		content = html.div().addClass("content").asJQuery();
 		aWidget.appendTo(content);
 		content.appendTo(dialog);
+		increaseIndex(dialog);
 		dialog.draggable({
 			cancel: ".content",
-			stop: function () {
-				updatePosition(dialog)
-			}
+			start: function () {increaseIndex(dialog)},
+			stop: function () {updatePosition(dialog)}
 		});
 		dialog.resizable({
 			autoHide: true,
+			start: function () {increaseIndex(dialog)},
 			stop: function(e, ui) {
 					var parent = ui.element.parent();
 					ui.element.css({
@@ -106,8 +108,22 @@ function Dialog (aWidget) {
 					updatePosition(dialog);	
 			}
 		});
+		dialog.click(function () {
+			increaseIndex(dialog);
+		});
 	}
 
+	function increaseIndex(anElement) {
+		children = anElement.parent().children();
+		var index = 0;
+		for(var i=0; i<children.length; i++) {
+			if($(children[i]).hasClass("dialog")) {
+				index = Math.max(index, Number($(children[i]).css("z-index")));
+			}
+		}
+		anElement.css("z-index", index + 1);
+	}
+	
 	function close(element) {
 		element.parent().parent().remove();
 	}

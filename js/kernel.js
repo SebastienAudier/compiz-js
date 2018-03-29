@@ -126,33 +126,40 @@ function Viewport(data) {
 	setTimeout(function () {
 		if(self.isCubeMode) {
 			board.detach();
-			var currentSide;
-			for(var i=1; i<$(".side").length -1; i++) {
-				side = $($(".side")[i]);
-				if(side.find('.board').length === 0) {
-					currentSide = side;
-					side.append(board);
-				}
-			}
-			board.css('width', '100%');
-			board.css('height', '100%');
-			board.css('margin-left', '0px');
-			board.css('margin-top', '0px');
-			translateZ = 400; 
-			for(var i=0; i<$(".board.current .dialog").length; i++) {
-				dialog = $($(".board.current .dialog")[i]);	
+			var currentSide = self.detectSideInProgress();
+			currentSide.append(board);
+			self.fullScreen(board);
+			dialogs = $(".board.current .dialog");
+			for(var i=0; i<dialogs.length; i++) {
+				dialog = $(dialogs[i]);	
 				width = dialog.css("width");
 				height = dialog.css("height");
 				dialog.detach();
 				$(".cube").append(dialog);
 				dialog.css("width", width);
 				dialog.css("height", height);
-				//dialog.css("transform", "rotateX(" + rotateX + "deg) rotateY(" + rotateY + "deg) translateZ(400px)");
-				dialog.css("transform", "translateZ(" + translateZ + "px)");
-				translateZ += 100;
+				dialog.css("transform", currentSide.css("transform").replace(300, 350));
 			} 
 		}		
 	}, 500);
+  }
+  
+	this.detectSideInProgress = function () {
+		var currentSide;  
+		for(var i=1; i<$(".side").length -1; i++) {
+			side = $($(".side")[i]);
+			if(side.find('.board').length === 0) {
+				currentSide = side;
+			}
+		}
+		return currentSide;
+	}
+  
+  this.fullScreen = function (aJQuery) {
+	aJQuery.css('width', '100%');
+	aJQuery.css('height', '100%');
+	aJQuery.css('margin-left', '0px');
+	aJQuery.css('margin-top', '0px');
   }
   
   this.switchToDesktop = function() {
@@ -191,8 +198,9 @@ function Viewport(data) {
   });
 
   bindEvent(document, 'mousemove', function(e) {
-	  self.mouseX = e.pageX;
-      self.mouseY = e.pageY;
+	self.mouseX = e.pageX;
+	self.mouseY = e.pageY;
+
   });
 
   bindEvent(document, 'touchstart', function(e) {
@@ -261,7 +269,6 @@ Viewport.prototype.animate = function() {
 
 		  if(!this.upsideDown) {
 			this.upsideDown = true;
-			this.emit('upsideDown', { upsideDown: this.upsideDown });
 		  }
 
 		} else {
@@ -270,7 +277,6 @@ Viewport.prototype.animate = function() {
 
 		  if(this.upsideDown) {
 			this.upsideDown = false;
-			this.emit('upsideDown', { upsideDown: this.upsideDown });
 		  }
 		}
 
@@ -343,24 +349,11 @@ function Cube(data) {
   this.sides = this.element.getElementsByClassName('side');
 
   this.viewport = data.viewport;
-  this.viewport.on('upsideDown', function(obj) {
-    self.upsideDown(obj);
-  });
   this.viewport.on('sideChange', function() {
     self.sideChange();
   });
 }
 
-Cube.prototype.upsideDown = function(obj) {
-
-  var deg = (obj.upsideDown == true) ? '180deg' : '0deg';
-  var i = 5;
-
-  while(i > 0 && --i) {
-    this.sides[i].getElementsByClassName('cube-image')[0].style[userPrefix.js + 'Transform'] = 'rotate(' + deg + ')';
-  }
-
-}
 
 Cube.prototype.sideChange = function() {
 
