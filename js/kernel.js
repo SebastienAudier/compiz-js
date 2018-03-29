@@ -119,17 +119,18 @@ function Viewport(data) {
   this.switchToCube = function() {
 	self.isCubeMode = true;
 	board = $(".board.current");
-	board.css('width', '650px');
-	board.css('height', '650px');
-	board.css('margin-left', '33%');
-	board.css('margin-top', '5%');
+	self.transitToCube(board);
 	setTimeout(function () {
 		if(self.isCubeMode) {
 			board.detach();
-			var currentSide = self.detectSideInProgress();
-			currentSide.append(board);
+			var side = self.detectSideInProgress();
+			side.append(board);
 			self.fullScreen(board);
-			dialogs = $(".board.current .dialog");
+			dialogs = $(".board.current .dialog").toArray();
+			dialogs.sort(function(a, b) {
+				return(Number(a.style.zIndex) - Number(b.style.zIndex));
+			});
+			var index = 340;
 			for(var i=0; i<dialogs.length; i++) {
 				dialog = $(dialogs[i]);	
 				width = dialog.css("width");
@@ -138,29 +139,38 @@ function Viewport(data) {
 				$(".cube").append(dialog);
 				dialog.css("width", width);
 				dialog.css("height", height);
-				dialog.css("transform", currentSide.css("transform").replace(300, 350));
+				dialog.css("transform", side.css("transform"));
+				// dialog.css("transform", side.css("transform").replace(300, index));
+				// index += 40;
 			} 
 		}		
 	}, 500);
   }
   
+	this.transitToCube = function(board) {
+		board.css('width', '650px');
+		board.css('height', '650px');
+		board.css('margin-left', '33%');
+		board.css('margin-top', '5%');
+	}
+	
 	this.detectSideInProgress = function () {
-		var currentSide;  
+		var sideInProgress;  
 		for(var i=1; i<$(".side").length -1; i++) {
 			side = $($(".side")[i]);
 			if(side.find('.board').length === 0) {
-				currentSide = side;
+				sideInProgress = side;
 			}
 		}
-		return currentSide;
+		return sideInProgress;
 	}
   
-  this.fullScreen = function (aJQuery) {
-	aJQuery.css('width', '100%');
-	aJQuery.css('height', '100%');
-	aJQuery.css('margin-left', '0px');
-	aJQuery.css('margin-top', '0px');
-  }
+	this.fullScreen = function (aJQuery) {
+		aJQuery.css('width', '100%');
+		aJQuery.css('height', '100%');
+		aJQuery.css('margin-left', '0px');
+		aJQuery.css('margin-top', '0px');
+	}
   
   this.switchToDesktop = function() {
 	board = $(".board.current");
