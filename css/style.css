@@ -41,23 +41,23 @@ body {
   -webkit-box-reflect: below 30% -webkit-gradient(linear, left top, left bottom, from(transparent), color-stop(0%, transparent), to(rgba(250, 250, 250, 0.4))); }
 
 .cube {
-  position: relative;
-  margin: 0 auto;
-  height: 600px;
-  width: 600px;
-  -webkit-transform-style: preserve-3d;
-  -moz-transform-style: preserve-3d;
-  -ms-transform-style: preserve-3d;
-  -o-transform-style: preserve-3d;
-  transform-style: preserve-3d;
-  -webkit-transform: rotateX(360deg) rotateY(0deg);
-  -moz-transform: rotateX(360deg) rotateY(0deg);
-  -ms-transform: rotateX(360deg) rotateY(0deg);
-  -o-transform: rotateX(360deg) rotateY(0deg);
-  transform: rotateX(360deg) rotateY(0deg); 
+	position: relative;
+	margin: 0 auto;
+	height: 600px;
+	width: 600px;
+	-webkit-transform-style: preserve-3d;
+	-moz-transform-style: preserve-3d;
+	-ms-transform-style: preserve-3d;
+	-o-transform-style: preserve-3d;
+	transform-style: preserve-3d;
+	-webkit-transform: rotateX(360deg) rotateY(0deg);
+	-moz-transform: rotateX(360deg) rotateY(0deg);
+	-ms-transform: rotateX(360deg) rotateY(0deg);
+	-o-transform: rotateX(360deg) rotateY(0deg);
+	transform: rotateX(360deg) rotateY(0deg); 
 }
 
-.cube > div {
+.cube > .side {
   overflow: hidden;
   position: absolute;
   opacity: 0.6;

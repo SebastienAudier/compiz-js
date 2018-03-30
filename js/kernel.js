@@ -140,6 +140,7 @@ function Viewport(data) {
 				dialog.css("width", width);
 				dialog.css("height", height);
 				dialog.css("transform", side.css("transform"));
+				console.log(side.css("transform"));
 				// dialog.css("transform", side.css("transform").replace(300, index));
 				// index += 40;
 			} 
