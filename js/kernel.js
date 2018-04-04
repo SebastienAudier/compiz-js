@@ -152,6 +152,8 @@ function Viewport(data) {
 					dialog.css("left", "auto");	
 				}
 				if(side.index() == 3) {
+					dialog.css("transform", side.css("transform"));
+					dialog.css("transform", side.css("transform").replace(300, index));
 					dialog.css("right", dialog.css("left"));
 					dialog.css("left", "auto");
 				}
