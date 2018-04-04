@@ -130,7 +130,10 @@ function Viewport(data) {
 			dialogs.sort(function(a, b) {
 				return(Number(a.style.zIndex) - Number(b.style.zIndex));
 			});
-			var index = 340;
+			var index = 350;
+			if(side.index() == 2) {
+				index = 550;
+			}
 			for(var i=0; i<dialogs.length; i++) {
 				dialog = $(dialogs[i]);	
 				width = dialog.css("width");
@@ -139,10 +142,23 @@ function Viewport(data) {
 				$(".cube").append(dialog);
 				dialog.css("width", width);
 				dialog.css("height", height);
-				dialog.css("transform", side.css("transform"));
-				console.log(side.css("transform"));
-				// dialog.css("transform", side.css("transform").replace(300, index));
-				// index += 40;
+				if(side.index() == 1) {
+					dialog.css("transform", side.css("transform"));
+					dialog.css("transform", side.css("transform").replace(300, index));
+				}
+				if(side.index() == 2) {
+					leftPercent = 100 - (Number(dialog.css("left").replace("px", "")) * 100 / Number(side.css("width").replace("px", "")));
+					dialog.css("transform", "rotateY(90deg) translateX(-" + leftPercent + "%) translateZ(" + index + "px)");
+					dialog.css("left", "auto");	
+				}
+				if(side.index() == 3) {
+					dialog.css("right", dialog.css("left"));
+					dialog.css("left", "auto");
+				}
+				if(side.index() == 4) {
+					dialog.css("left", "auto");
+				}
+				index += 50;
 			} 
 		}		
 	}, 500);
