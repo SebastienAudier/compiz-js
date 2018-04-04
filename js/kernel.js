@@ -1,3 +1,19 @@
+(function ($) {
+
+    $.fn.filterByData = function (prop, val) {
+        var $self = this;
+        if (typeof val === 'undefined') {
+            return $self.filter(
+                function () { return typeof $(this).data(prop) !== 'undefined'; }
+            );
+        }
+        return $self.filter(
+            function () { return $(this).data(prop) == val; }
+        );
+    };
+
+})(window.jQuery);
+
 var events = new Events();
 
 events.add = function(obj) {
@@ -116,56 +132,63 @@ function Viewport(data) {
   this.currentSide = 0;
   this.calculatedSide = 0;
 
-  this.switchToCube = function() {
-	self.isCubeMode = true;
-	board = $(".board.current");
-	self.transitToCube(board);
-	setTimeout(function () {
+	this.switchToCube = function() {
+		self.isCubeMode = true;
+		board = $(".board.current");
+		self.transitToCube(board);
+		setTimeout(function () {
+			if(self.isCubeMode) {
+				board.detach();
+				var side = self.detectSideInProgress();
+				side.append(board);
+				self.fullScreen(board);
+				dialogs = $(".board.current .dialog").toArray();
+				dialogs.sort(function(a, b) {
+					return(Number(a.style.zIndex) - Number(b.style.zIndex));
+				});
+				var index = 360;
+				for(var i=0; i<dialogs.length; i++) {
+					layer = $(document.createElement('div'));
+					layer.copyCSS(side);
+					layer.addClass("layer");
+					layer.data("index", side.index());
+					layer.css("transform", layer.css("transform").replace(300, index));
+					dialog = $(dialogs[i]);	
+					width = dialog.css("width");
+					height = dialog.css("height");
+					dialog.detach();
+					$(".cube").append(layer);
+					layer.append(dialog);
+					dialog.css("width", width);
+					dialog.css("height", height);
+					index += 60;
+				} 
+			}		
+		}, 500);
+	}
+
+	this.switchToDesktop = function() {
+		board = $(".board.current");
+		layers = $(".layer").filterByData('index', $(".side.active").index());
+		for(var i=0; i<layers.length; i++) {
+			dialog = $(layers[i]).children();
+			width = (dialog.width() / dialog.parent().width()) * 100;
+			height = (dialog.height() / dialog.parent().height()) * 100;
+			dialog.detach();
+			board.append(dialog);
+			dialog.css("width", width + "%");
+			dialog.css("height", height + "%");
+		}
+		layers.remove();
+		
 		if(self.isCubeMode) {
 			board.detach();
-			var side = self.detectSideInProgress();
-			side.append(board);
-			self.fullScreen(board);
-			dialogs = $(".board.current .dialog").toArray();
-			dialogs.sort(function(a, b) {
-				return(Number(a.style.zIndex) - Number(b.style.zIndex));
-			});
-			var index = 350;
-			if(side.index() == 2) {
-				index = 550;
-			}
-			for(var i=0; i<dialogs.length; i++) {
-				dialog = $(dialogs[i]);	
-				width = dialog.css("width");
-				height = dialog.css("height");
-				dialog.detach();
-				$(".cube").append(dialog);
-				dialog.css("width", width);
-				dialog.css("height", height);
-				if(side.index() == 1) {
-					dialog.css("transform", side.css("transform"));
-					dialog.css("transform", side.css("transform").replace(300, index));
-				}
-				if(side.index() == 2) {
-					leftPercent = 100 - (Number(dialog.css("left").replace("px", "")) * 100 / Number(side.css("width").replace("px", "")));
-					dialog.css("transform", "rotateY(90deg) translateX(-" + leftPercent + "%) translateZ(" + index + "px)");
-					dialog.css("left", "auto");	
-				}
-				if(side.index() == 3) {
-					dialog.css("transform", side.css("transform"));
-					dialog.css("transform", side.css("transform").replace(300, index));
-					dialog.css("right", dialog.css("left"));
-					dialog.css("left", "auto");
-				}
-				if(side.index() == 4) {
-					dialog.css("left", "auto");
-				}
-				index += 50;
-			} 
-		}		
-	}, 500);
-  }
-  
+			$(".desktop").prepend(board);
+		}
+		self.isCubeMode = false;
+	}
+
+	
 	this.transitToCube = function(board) {
 		board.css('width', '650px');
 		board.css('height', '650px');
@@ -191,20 +214,6 @@ function Viewport(data) {
 		aJQuery.css('margin-top', '0px');
 	}
   
-  this.switchToDesktop = function() {
-	board = $(".board.current");
-	if(self.isCubeMode) {
-		board.detach();
-		$(".desktop").prepend(board);
-	}
-	board.css('width', '100%');
-	board.css('height', '100%');
-	board.css('margin-left', '0px');
-	board.css('margin-top', '0px');
-
-	self.isCubeMode = false;
-  }
-
   bindEvent(document, 'mousedown', function() {
 	self.down = true;
   });

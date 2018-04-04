@@ -137,6 +137,12 @@ body {
 	outline: 1px solid transparent; 
 }
 
+.cube .layer {
+	background: none !important;
+	opacity: 1 !important;
+	box-shadow: none !important;
+}
+
 object {
   opacity: 0.5; 
 }
