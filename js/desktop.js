@@ -131,10 +131,11 @@ function Dialog (aWidget) {
 	}
 	
 	function grow(element) {
-		element.css("left","5%");
-		element.css("top", "5%");
-		element.width("90%");
-		element.height("80%");
+		if(element.hasClass("maximized")) {
+			element.removeClass("maximized");
+		} else {
+			element.addClass("maximized");
+		}
 	}
 	
 	function updatePosition(dialog) {
