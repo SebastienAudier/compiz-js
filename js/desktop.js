@@ -85,8 +85,8 @@ function Dialog (aWidget) {
 		dialog = html.div().addClass("dialog").asJQuery();
 		head = html.div().addClass("head").asJQuery();
 		head.appendTo(dialog);
-		html.span("x").asJQuery().click(function () { close($(this))}).appendTo(head);
-		html.span("\u25a0").addClass("close").asJQuery().appendTo(head);
+		html.span("x").click(function () { close($(this))}).asJQuery().appendTo(head);
+		html.span("\u25a0").click(function () { grow($(this).parent().parent())}).asJQuery().appendTo(head);
 		content = html.div().addClass("content").asJQuery();
 		aWidget.appendTo(content);
 		content.appendTo(dialog);
@@ -119,13 +119,22 @@ function Dialog (aWidget) {
 		for(var i=0; i<children.length; i++) {
 			if($(children[i]).hasClass("dialog")) {
 				index = Math.max(index, Number($(children[i]).css("z-index")));
+				$(children[i]).css("opacity", "0.9");
 			}
 		}
 		anElement.css("z-index", index + 1);
+		anElement.css("opacity", "1");
 	}
 	
 	function close(element) {
 		element.parent().parent().remove();
+	}
+	
+	function grow(element) {
+		element.css("left","5%");
+		element.css("top", "5%");
+		element.width("90%");
+		element.height("80%");
 	}
 	
 	function updatePosition(dialog) {
