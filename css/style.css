@@ -254,7 +254,7 @@ object:hover {
 } 
 
 .dialog .head {
-	height: 24px;
+	height: 8%;
 	width: 100%;
 	float: left;
 	cursor: move;
@@ -299,26 +299,63 @@ object:hover {
 .dialog .content {
 	float: left;
 	width: 100%;
-	height: 100%;
+	height: 92%;
+	-webkit-border-top-right-radius: 8px;
+	-moz-border-radius-topright: 8px;
+	border-top-right-radius: 8px;
 }
 
 .dialog .content > * {
 	float: left;
+	transition: all 0.5s ease-in-out;	
+}
+
+.dialog .player {
+	height: 100%;
 	width: 100%;
-	padding: 10px;
-	transition: all 0.5s ease-in-out;
+	background: #1b1b1b;
+}
+
+.dialog .player video {
+	height: 90%;
+	width: 100%;
+	padding-left: 5px;
+	padding-right: 5px;
+	background: #1b1b1b;
+}
+
+.dialog .player .buttons {
+	margin: 0 auto;
+	width: 20%;
+	height: 10%;
+}
+
+.dialog .buttons img {
+	width: 40%;
+	float: left;
+	height: 90%;
+	padding: 5%;
+	cursor: pointer;
+	-webkit-border-radius: 6px;
+	-moz-border-radius: 6px;
+	border-radius: 6px;
+}
+
+.dialog .buttons img:hover {
+	background: #0b0b0b;
 }
 
 .dialog .content .title {
-    font-size: 18px;
+	width: 100%;
+	padding: 10px;
+    font-size: 100%;
 	font-weight: bold;
 }
 
-.cube .dialog .content > * {
-	font-size: 6px;
+.dialog .content  span {
+	width: 100%;
+	font-size: 80%;
+	padding: 10px;
 }
 
-.cube .dialog .content .title {
-	font-size: 10px;
-}
 

@@ -167,25 +167,26 @@ function Viewport(data) {
 		}, 500);
 	}
 
-	this.switchToDesktop = function() {		
+	this.switchToDesktop = function() {
+		board = $(".board.current");
+		layers = $(".layer").filterByData('index', $(".side.active").index());
+		for(var i=0; i<layers.length; i++) {
+			dialog = $(layers[i]).children();
+			width = (dialog.width() / dialog.parent().width()) * 100;
+			height = (dialog.height() / dialog.parent().height()) * 100;
+			dialog.detach();
+			board.append(dialog);
+			dialog.css("width", width + "%");
+			dialog.css("height", height + "%");
+		}
+		layers.remove();
 		if(self.isCubeMode) {
-			board = $(".board.current");
-			layers = $(".layer").filterByData('index', $(".side.active").index());
-			for(var i=0; i<layers.length; i++) {
-				dialog = $(layers[i]).children();
-				width = (dialog.width() / dialog.parent().width()) * 100;
-				height = (dialog.height() / dialog.parent().height()) * 100;
-				dialog.detach();
-				board.append(dialog);
-				dialog.css("width", width + "%");
-				dialog.css("height", height + "%");
-			}
-			layers.remove();
 			board.detach();
 			$(".desktop").prepend(board);
 		}
 		self.isCubeMode = false;
 	}
+
 	
 	this.transitToCube = function(board) {
 		board.css('width', '650px');

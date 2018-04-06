@@ -64,12 +64,17 @@ function Toolbar() {
 		tool = html.div().addClass("tool");
 		html.img().setAttribute('src', './img/help.png').click(function () {help()}).asJQuery().appendTo(tool.asJQuery());
 		html.img().setAttribute('src', './img/desktops.png').asJQuery().appendTo(tool.asJQuery());
+		html.img().setAttribute('src', './img/player.png').click(function () {openPlayer()}).asJQuery().appendTo(tool.asJQuery());
 		html.img().setAttribute('src', './img/config.png').asJQuery().appendTo(tool.asJQuery());
 		tool.asJQuery().appendTo(toolbar.asJQuery());
 	}
 	
 	function help() {
 		Dialog(Introduction()).appendTo($(".board.current"));
+	}
+	
+	function openPlayer() {
+		Dialog(Player()).appendTo($(".board.current"));
 	}
 	
 	return that;
@@ -163,6 +168,43 @@ function Introduction () {
 	that.renderOn = function (html) {
 		html.span("How to display cube ?").addClass("title");
 		html.span('Long press on "ctrl" and move the mouse...');
+	}
+	
+	return that;
+}
+
+function Player () {	
+	
+	var that = htmlCanvas.widget();
+	var uuid = generateUUID();
+	
+	that.renderOn = function (html) {
+		player = html.div().addClass("player").asJQuery();
+		html.video().setAttribute("id", uuid).setAttribute("src", "https://www.w3schools.com/html/mov_bbb.mp4").asJQuery().appendTo(player);
+		buttons = html.div().addClass("buttons").asJQuery();
+		html.img().setAttribute('src', './img/pause.png').click(function () {pause()}).asJQuery().appendTo(buttons);
+		html.img().setAttribute('src', './img/play.png').click(function () {play()}).asJQuery().appendTo(buttons);
+		buttons.appendTo(player);	
+	}
+	
+	function pause() {
+		document.getElementById(uuid).pause();
+	}
+
+	function play() {
+		document.getElementById(uuid).play();
+	}
+	
+	function generateUUID() { // Public Domain/MIT
+		var d = new Date().getTime();
+		if (typeof performance !== 'undefined' && typeof performance.now === 'function'){
+			d += performance.now(); //use high-precision timer if available
+		}
+		return 'xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx'.replace(/[xy]/g, function (c) {
+			var r = (d + Math.random() * 16) % 16 | 0;
+			d = Math.floor(d / 16);
+			return (c === 'x' ? r : (r & 0x3 | 0x8)).toString(16);
+		});
 	}
 	
 	return that;
