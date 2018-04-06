@@ -133,9 +133,9 @@ function Viewport(data) {
   this.calculatedSide = 0;
 
 	this.switchToCube = function() {
-		self.isCubeMode = true;
 		board = $(".board.current");
 		self.transitToCube(board);
+		self.isCubeMode = true;
 		setTimeout(function () {
 			if(self.isCubeMode) {
 				board.detach();
@@ -167,27 +167,25 @@ function Viewport(data) {
 		}, 500);
 	}
 
-	this.switchToDesktop = function() {
-		board = $(".board.current");
-		layers = $(".layer").filterByData('index', $(".side.active").index());
-		for(var i=0; i<layers.length; i++) {
-			dialog = $(layers[i]).children();
-			width = (dialog.width() / dialog.parent().width()) * 100;
-			height = (dialog.height() / dialog.parent().height()) * 100;
-			dialog.detach();
-			board.append(dialog);
-			dialog.css("width", width + "%");
-			dialog.css("height", height + "%");
-		}
-		layers.remove();
-		
+	this.switchToDesktop = function() {		
 		if(self.isCubeMode) {
+			board = $(".board.current");
+			layers = $(".layer").filterByData('index', $(".side.active").index());
+			for(var i=0; i<layers.length; i++) {
+				dialog = $(layers[i]).children();
+				width = (dialog.width() / dialog.parent().width()) * 100;
+				height = (dialog.height() / dialog.parent().height()) * 100;
+				dialog.detach();
+				board.append(dialog);
+				dialog.css("width", width + "%");
+				dialog.css("height", height + "%");
+			}
+			layers.remove();
 			board.detach();
 			$(".desktop").prepend(board);
 		}
 		self.isCubeMode = false;
 	}
-
 	
 	this.transitToCube = function(board) {
 		board.css('width', '650px');

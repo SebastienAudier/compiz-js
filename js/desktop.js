@@ -62,14 +62,13 @@ function Toolbar() {
 		toolbar = html.div().addClass("toolbar");
 		html.div().addClass("pedestal").asJQuery().appendTo(toolbar.asJQuery());
 		tool = html.div().addClass("tool");
-		html.img().setAttribute('src', './img/ff.png').click(function () {openIntroduction()}).asJQuery().appendTo(tool.asJQuery());
-		html.img().setAttribute('src', './img/config.png').asJQuery().appendTo(tool.asJQuery());
-		html.img().setAttribute('src', './img/home.png').asJQuery().appendTo(tool.asJQuery());
+		html.img().setAttribute('src', './img/help.png').click(function () {help()}).asJQuery().appendTo(tool.asJQuery());
 		html.img().setAttribute('src', './img/desktops.png').asJQuery().appendTo(tool.asJQuery());
+		html.img().setAttribute('src', './img/config.png').asJQuery().appendTo(tool.asJQuery());
 		tool.asJQuery().appendTo(toolbar.asJQuery());
 	}
 	
-	function openIntroduction() {
+	function help() {
 		Dialog(Introduction()).appendTo($(".board.current"));
 	}
 	
@@ -86,7 +85,7 @@ function Dialog (aWidget) {
 		head = html.div().addClass("head").asJQuery();
 		head.appendTo(dialog);
 		html.span("x").click(function () { close($(this))}).asJQuery().appendTo(head);
-		html.span("\u25a0").click(function () { grow($(this).parent().parent())}).asJQuery().appendTo(head);
+		html.span("\u25a0").click(function () { grow($(this))}).asJQuery().appendTo(head);
 		content = html.div().addClass("content").asJQuery();
 		aWidget.appendTo(content);
 		content.appendTo(dialog);
@@ -131,10 +130,19 @@ function Dialog (aWidget) {
 	}
 	
 	function grow(element) {
-		if(element.hasClass("maximized")) {
-			element.removeClass("maximized");
+		dialog = element.parent().parent();
+		widthInPercent = Math.round(dialog.width() * 100 / parseFloat(dialog.parent().width()));
+		heightInPercent = Math.round(dialog.height() * 100 / parseFloat(dialog.parent().height()));
+		if(widthInPercent == 90 && heightInPercent == 80) {
+			dialog.css("width", "30%");
+			dialog.css("height", "40%");
+			element.text("\u25a0");
 		} else {
-			element.addClass("maximized");
+			dialog.css("width", "90%");
+			dialog.css("height", "80%");
+			dialog.css("top", "5%");
+			dialog.css("left", "5%");
+			element.text("\u2013");
 		}
 	}
 	
@@ -159,3 +167,5 @@ function Introduction () {
 	
 	return that;
 }
+
+
