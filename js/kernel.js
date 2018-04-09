@@ -156,15 +156,29 @@ function Viewport(data) {
 					dialog = $(dialogs[i]);	
 					width = dialog.css("width");
 					height = dialog.css("height");
+					
+					// catch videos and replay if they are playing...
+					videos = dialog.find("video");
+					videosOnPlay = [];
+					for (var i=0; i < videos.length; i++) {
+						video = videos[i];
+						// not working yet...
+						if(video.play) {
+							videosOnPlay.push(video);
+						}
+					}
 					dialog.detach();
 					$(".cube").append(layer);
 					layer.append(dialog);
+					for (var i=0; i < videosOnPlay.length; i++) {
+						videosOnPlay[i].play();	
+					}
 					dialog.css("width", width);
 					dialog.css("height", height);
 					index += 60;
 				} 
 			}		
-		}, 500);
+		}, 520);
 	}
 
 	this.switchToDesktop = function() {
