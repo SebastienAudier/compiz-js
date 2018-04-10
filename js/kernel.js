@@ -1,3 +1,5 @@
+var video;
+
 (function ($) {
 
     $.fn.filterByData = function (prop, val) {
@@ -122,6 +124,7 @@ function Viewport(data) {
   this.torqueX = 0;
   this.torqueY = 0;
 
+  this.isOnTransitionToCube = false;
   this.isCubeMode = false;
   this.down = false;
   this.upsideDown = false;
@@ -133,11 +136,12 @@ function Viewport(data) {
   this.calculatedSide = 0;
 
 	this.switchToCube = function() {
+		self.isOnTransitionToCube = true;
 		board = $(".board.current");
 		self.transitToCube(board);
-		self.isCubeMode = true;
 		setTimeout(function () {
-			if(self.isCubeMode) {
+			if(self.isOnTransitionToCube) {
+				self.isOnTransitionToCube = false;
 				board.detach();
 				var side = self.detectSideInProgress();
 				side.append(board);
@@ -154,18 +158,14 @@ function Viewport(data) {
 					layer.data("index", side.index());
 					layer.css("transform", layer.css("transform").replace(300, index));
 					dialog = $(dialogs[i]);	
-					width = dialog.css("width");
-					height = dialog.css("height");
-					
-					// catch videos and replay if they are playing...
 					videos = dialog.find("video");
 					videosOnPlay = [];
 					for (var i=0; i < videos.length; i++) {
 						video = videos[i];
-						// not working yet...
-						if(video.play) {
+						// Bug if we make this test and detach video after...
+						//if(!video.paused) {
 							videosOnPlay.push(video);
-						}
+						//}
 					}
 					dialog.detach();
 					$(".cube").append(layer);
@@ -173,35 +173,38 @@ function Viewport(data) {
 					for (var i=0; i < videosOnPlay.length; i++) {
 						videosOnPlay[i].play();	
 					}
-					dialog.css("width", width);
-					dialog.css("height", height);
 					index += 60;
 				} 
+				self.isCubeMode = true;
 			}		
 		}, 520);
 	}
 
 	this.switchToDesktop = function() {
-		board = $(".board.current");
-		layers = $(".layer").filterByData('index', $(".side.active").index());
-		for(var i=0; i<layers.length; i++) {
-			dialog = $(layers[i]).children();
-			width = (dialog.width() / dialog.parent().width()) * 100;
-			height = (dialog.height() / dialog.parent().height()) * 100;
-			dialog.detach();
-			board.append(dialog);
-			dialog.css("width", width + "%");
-			dialog.css("height", height + "%");
-		}
-		layers.remove();
-		if(self.isCubeMode) {
+		board = $(".board.current");	
+		if(self.isOnTransitionToCube) {
+			self.fullScreen(board);
+			self.isOnTransitionToCube = false;
+		} else if(self.isCubeMode) {
+			layers = $(".layer").filterByData('index', $(".side.active").index());
+			for(var i=0; i<layers.length; i++) {
+				dialog = $(layers[i]).children();
+				width = (dialog.width() / dialog.parent().width()) * 100;
+				height = (dialog.height() / dialog.parent().height()) * 100;
+				dialog.detach();
+				board.append(dialog);
+				dialog.css("width", width + "%");
+				dialog.css("height", height + "%");
+			}
+			layers.remove();
 			board.detach();
-			$(".desktop").prepend(board);
+			$(".desktop").prepend(board);	
+			self.isCubeMode = false;
+		} else {
+			// Have to fix it...
 		}
-		self.isCubeMode = false;
 	}
 
-	
 	this.transitToCube = function(board) {
 		board.css('width', '650px');
 		board.css('height', '650px');
@@ -237,7 +240,7 @@ function Viewport(data) {
   
   bindEvent(document, 'keydown', function(e) {
 	if(e.keyCode == 17) {
-		if(!self.isCubeMode) {
+		if(!(self.isOnTransitionToCube || self.isCubeMode)) {
 			self.switchToCube();
 		}
 	}
