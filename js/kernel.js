@@ -162,16 +162,15 @@ function Viewport(data) {
 					videosOnPlay = [];
 					for (var i=0; i < videos.length; i++) {
 						video = videos[i];
-						// Bug if we make this test and detach video after...
-						//if(!video.paused) {
+						if(!video.paused) {
 							videosOnPlay.push(video);
-						//}
+						}
 					}
 					dialog.detach();
 					$(".cube").append(layer);
 					layer.append(dialog);
-					for (var i=0; i < videosOnPlay.length; i++) {
-						videosOnPlay[i].play();	
+					for (var j=0; j < videosOnPlay.length; j++) {
+						videosOnPlay[j].play();	
 					}
 					index += 60;
 				} 
