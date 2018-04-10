@@ -200,8 +200,6 @@ function Viewport(data) {
 			board.detach();
 			$(".desktop").prepend(board);	
 			self.isCubeMode = false;
-		} else {
-			// Have to fix it...
 		}
 	}
 
