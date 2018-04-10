@@ -106,13 +106,13 @@ function Viewport(data) {
 
   var self = this;
 
+  // Rotation variables
   this.element = data.element;
   this.fps = data.fps;
   this.sensivity = data.sensivity;
   this.sensivityFade = data.sensivityFade;
   this.touchSensivity = data.touchSensivity;
   this.speed = data.speed;
-
   this.lastX = 0;
   this.lastY = 0;
   this.mouseX = 0;
@@ -122,18 +122,24 @@ function Viewport(data) {
   this.positionX = 360;
   this.positionY = 0;  
   this.torqueX = 0;
-  this.torqueY = 0;
+  this.torqueY = 0;  
+  this.previousPositionX = 0;
+  this.previousPositionY = 0;
 
+  // Transition variables
   this.isOnTransitionToCube = false;
   this.isCubeMode = false;
   this.down = false;
   this.upsideDown = false;
-
-  this.previousPositionX = 0;
-  this.previousPositionY = 0;
-
   this.currentSide = 0;
   this.calculatedSide = 0;
+  
+  // Have to be synchronize with css Layer
+  this.delayForTransition = 500;
+  this.defaultZTranslateSide = 300; 
+  
+  // Dialogs variables
+  this.reliefInterval = 50;
 
 	this.switchToCube = function() {
 		self.isOnTransitionToCube = true;
@@ -150,18 +156,18 @@ function Viewport(data) {
 				dialogs.sort(function(a, b) {
 					return(Number(a.style.zIndex) - Number(b.style.zIndex));
 				});
-				var index = 360;
+				var index = self.defaultZTranslateSide + self.reliefInterval;
 				for(var i=0; i<dialogs.length; i++) {
 					layer = $(document.createElement('div'));
 					layer.copyCSS(side);
 					layer.addClass("layer");
 					layer.data("index", side.index());
-					layer.css("transform", layer.css("transform").replace(300, index));
+					layer.css("transform", layer.css("transform").replace(self.defaultZTranslateSide, index));
 					dialog = $(dialogs[i]);	
 					videos = dialog.find("video");
 					videosOnPlay = [];
-					for (var i=0; i < videos.length; i++) {
-						video = videos[i];
+					for (var j=0; j < videos.length; j++) {
+						video = videos[j];
 						if(!video.paused) {
 							videosOnPlay.push(video);
 						}
@@ -172,11 +178,11 @@ function Viewport(data) {
 					for (var j=0; j < videosOnPlay.length; j++) {
 						videosOnPlay[j].play();	
 					}
-					index += 60;
+					index += self.reliefInterval;
 				} 
 				self.isCubeMode = true;
 			}		
-		}, 520);
+		}, self.delayForTransition);
 	}
 
 	this.switchToDesktop = function() {
@@ -270,9 +276,7 @@ function Viewport(data) {
     }
 
     if(e.touches.length == 1) {
-
       e.touches ? e = e.touches[0] : null;
-
       self.mouseX = e.pageX / self.touchSensivity;
       self.mouseY = e.pageY / self.touchSensivity;
 
