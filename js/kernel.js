@@ -143,6 +143,8 @@ function Viewport(data) {
 
 	this.switchToCube = function() {
 		self.isOnTransitionToCube = true;
+		side = $(".side.active");
+		self.initCubeTransformation(side);
 		board = $(".board.current");
 		self.transitToCube(board);
 		dialogs = $(".board.current .dialog").toArray();
@@ -151,7 +153,6 @@ function Viewport(data) {
 			if(self.isOnTransitionToCube) {
 				self.isOnTransitionToCube = false;
 				board.detach();
-				side = self.detectSideInProgress();
 				side.append(board);
 				self.fullScreen(board);
 				dialogs.sort(function(a, b) {return(Number(a.style.zIndex) - Number(b.style.zIndex))});
@@ -176,9 +177,32 @@ function Viewport(data) {
 		}, self.delayForTransition);
 	}
 
-	this.collectVideosPlaying = function (anArray) {
+	this.initCubeTransformation = function(side) {
+		if(side.index() == 1) {
+			self.positionX = 0;
+			self.positionY = 0;
+			$(".cube").css("transform", 'rotateX(' + self.positionY + 'deg) rotateY(' + self.positionX + 'deg)');
+		}
+		if(side.index() == 2) {
+			self.positionX = 270;
+			self.positionY = 360;
+			$(".cube").css("transform", 'rotateX(' + self.positionY + 'deg) rotateY(' + self.positionX + 'deg)');
+		}
+		if(side.index() == 3) {
+			self.positionX = 180;
+			self.positionY = 360;
+			$(".cube").css("transform", 'rotateX(' + self.positionY + 'deg) rotateY(' + self.positionX + 'deg)');
+		}
+		if(side.index() == 4) {
+			self.positionX = 90;
+			self.positionY = 360;
+			$(".cube").css("transform", 'rotateX(' + self.positionY + 'deg) rotateY(' + self.positionX + 'deg)');
+		}
+	}
+	
+	this.collectVideosPlaying = function (dialogs) {
 		videosPlaying = [];
-		for(var i=0; i<anArray.length; i++) {
+		for(var i=0; i<dialogs.length; i++) {
 			dialog = $(dialogs[i]);
 			videos = dialog.find("video");
 			for (var j=0; j < videos.length; j++) {
@@ -219,17 +243,6 @@ function Viewport(data) {
 		board.css('height', '500px');
 		board.css('margin-left', '33%');
 		board.css('margin-top', '10%');
-	}
-	
-	this.detectSideInProgress = function () {
-		var sideInProgress;  
-		for(var i=1; i<$(".side").length -1; i++) {
-			side = $($(".side")[i]);
-			if(side.find('.board').length === 0) {
-				sideInProgress = side;
-			}
-		}
-		return sideInProgress;
 	}
   
 	this.fullScreen = function (aJQuery) {
@@ -386,6 +399,8 @@ Viewport.prototype.animate = function() {
 	  }
 	  
 	  this.element.style[userPrefix.js + 'Transform'] = 'rotateX(' + this.positionY + 'deg) rotateY(' + this.positionX + 'deg)';
+	  console.log("PositionY : " + this.positionY);
+	  console.log("PositionX : " + this.positionX);
 
 	  if(this.positionY != this.previousPositionY || this.positionX != this.previousPositionX) {
 		this.previousPositionY = this.positionY;
