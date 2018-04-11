@@ -145,17 +145,16 @@ function Viewport(data) {
 		self.isOnTransitionToCube = true;
 		board = $(".board.current");
 		self.transitToCube(board);
+		dialogs = $(".board.current .dialog").toArray();
+		videosPlaying = self.collectVideosPlaying(dialogs);
 		setTimeout(function () {
 			if(self.isOnTransitionToCube) {
 				self.isOnTransitionToCube = false;
 				board.detach();
-				var side = self.detectSideInProgress();
+				side = self.detectSideInProgress();
 				side.append(board);
 				self.fullScreen(board);
-				dialogs = $(".board.current .dialog").toArray();
-				dialogs.sort(function(a, b) {
-					return(Number(a.style.zIndex) - Number(b.style.zIndex));
-				});
+				dialogs.sort(function(a, b) {return(Number(a.style.zIndex) - Number(b.style.zIndex))});
 				var index = self.defaultZTranslateSide + self.reliefInterval;
 				for(var i=0; i<dialogs.length; i++) {
 					layer = $(document.createElement('div'));
@@ -164,19 +163,11 @@ function Viewport(data) {
 					layer.data("index", side.index());
 					layer.css("transform", layer.css("transform").replace(self.defaultZTranslateSide, index));
 					dialog = $(dialogs[i]);	
-					videos = dialog.find("video");
-					videosOnPlay = [];
-					for (var j=0; j < videos.length; j++) {
-						video = videos[j];
-						if(!video.paused) {
-							videosOnPlay.push(video);
-						}
-					}
 					dialog.detach();
 					$(".cube").append(layer);
 					layer.append(dialog);
-					for (var j=0; j < videosOnPlay.length; j++) {
-						videosOnPlay[j].play();	
+					for (var j=0; j < videosPlaying.length; j++) {
+						videosPlaying[j].play();	
 					}
 					index += self.reliefInterval;
 				} 
@@ -185,6 +176,21 @@ function Viewport(data) {
 		}, self.delayForTransition);
 	}
 
+	this.collectVideosPlaying = function (anArray) {
+		videosPlaying = [];
+		for(var i=0; i<anArray.length; i++) {
+			dialog = $(dialogs[i]);
+			videos = dialog.find("video");
+			for (var j=0; j < videos.length; j++) {
+				video = videos[j];
+				if(!video.paused) {
+					videosPlaying.push(video);
+				}
+			}
+		}
+		return videosPlaying;
+	}
+	
 	this.switchToDesktop = function() {
 		board = $(".board.current");	
 		if(self.isOnTransitionToCube) {
@@ -209,10 +215,10 @@ function Viewport(data) {
 	}
 
 	this.transitToCube = function(board) {
-		board.css('width', '650px');
-		board.css('height', '650px');
+		board.css('width', '500px');
+		board.css('height', '500px');
 		board.css('margin-left', '33%');
-		board.css('margin-top', '5%');
+		board.css('margin-top', '10%');
 	}
 	
 	this.detectSideInProgress = function () {
