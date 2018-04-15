@@ -217,6 +217,8 @@ function Viewport(data) {
 	
 	this.switchToDesktop = function() {
 		board = $(".board.current");	
+		dialogs = $(".layer .dialog").toArray();
+		videosPlaying = self.collectVideosPlaying(dialogs);
 		if(self.isOnTransitionToCube) {
 			self.fullScreen(board);
 			self.isOnTransitionToCube = false;
@@ -233,7 +235,10 @@ function Viewport(data) {
 			}
 			layers.remove();
 			board.detach();
-			$(".desktop").prepend(board);	
+			$(".desktop").prepend(board);
+			for (var j=0; j < videosPlaying.length; j++) {
+				videosPlaying[j].play();	
+			}
 			self.isCubeMode = false;
 		}
 	}
@@ -397,11 +402,7 @@ Viewport.prototype.animate = function() {
 		  this.emit('sideChange');
 		}
 	  }
-	  
 	  this.element.style[userPrefix.js + 'Transform'] = 'rotateX(' + this.positionY + 'deg) rotateY(' + this.positionX + 'deg)';
-	  console.log("PositionY : " + this.positionY);
-	  console.log("PositionX : " + this.positionX);
-
 	  if(this.positionY != this.previousPositionY || this.positionX != this.previousPositionX) {
 		this.previousPositionY = this.positionY;
 		this.previousPositionX = this.positionX;
