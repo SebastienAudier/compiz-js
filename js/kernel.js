@@ -123,8 +123,6 @@ function Viewport(data) {
   this.positionY = 0;  
   this.torqueX = 0;
   this.torqueY = 0;  
-  this.previousPositionX = 0;
-  this.previousPositionY = 0;
 
   // Transition variables
   this.isOnTransitionToCube = false;
@@ -402,11 +400,15 @@ Viewport.prototype.animate = function() {
 		  this.emit('sideChange');
 		}
 	  }
-	  this.element.style[userPrefix.js + 'Transform'] = 'rotateX(' + this.positionY + 'deg) rotateY(' + this.positionX + 'deg)';
-	  if(this.positionY != this.previousPositionY || this.positionX != this.previousPositionX) {
-		this.previousPositionY = this.positionY;
-		this.previousPositionX = this.positionX;
+	  
+	  var absoluteY = 0;
+	  if(this.positionY > 180) {
+		 absoluteY = Math.max(310, this.positionY);
+	  } else {
+		  absoluteY = Math.min(20, this.positionY);
 	  }
+	  
+	  this.element.style[userPrefix.js + 'Transform'] = 'rotateX(' + absoluteY + 'deg) rotateY(' + this.positionX + 'deg)';
 	}
 }
 
