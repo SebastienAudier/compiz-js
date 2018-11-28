@@ -319,6 +319,8 @@ events.implement(Viewport);
 Viewport.prototype.animate = function() {
 	
 	if(this.isCubeMode) {
+		
+		
 	  this.distanceX = (this.mouseX - this.lastX);
 	  this.distanceY = (this.mouseY - this.lastY);
 
@@ -412,6 +414,15 @@ Viewport.prototype.animate = function() {
 	  }
 	  
 	  this.element.style[userPrefix.js + 'Transform'] = 'rotateX(' + absoluteY + 'deg) rotateY(' + this.positionX + 'deg)';
+	  
+	  var bgPosition = parseInt($("body").css("background-position-x"));
+	  
+	  console.log("-----------------------------------------------------------------------------");
+	  console.log(this.positionX);
+	  console.log(bgPosition);
+	  console.log("-----------------------------------------------------------------------------");
+	  
+	  $("body").css("background-position-x", "-" this.positionX + "px");
 	}
 }
 
