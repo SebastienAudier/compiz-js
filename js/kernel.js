@@ -422,7 +422,7 @@ Viewport.prototype.animate = function() {
 	  console.log(bgPosition);
 	  console.log("-----------------------------------------------------------------------------");
 	  
-	  $("body").css("background-position-x", "-" this.positionX + "px");
+	  $("body").css("background-position-x", "-" + this.positionX + "px");
 	}
 }
 
