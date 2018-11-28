@@ -162,6 +162,9 @@ function Viewport(data) {
 					layer.data("index", side.index());
 					layer.css("transform", layer.css("transform").replace(self.defaultZTranslateSide, index));
 					dialog = $(dialogs[i]);	
+					
+					// clone dialog on other component if it is not cloned...
+					
 					dialog.detach();
 					$(".cube").append(layer);
 					layer.append(dialog);
@@ -174,7 +177,7 @@ function Viewport(data) {
 			}		
 		}, self.delayForTransition);
 	}
-
+	
 	this.initCubeTransformation = function(side) {
 		if(side.index() == 1) {
 			self.positionX = 0;
