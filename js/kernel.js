@@ -415,14 +415,9 @@ Viewport.prototype.animate = function() {
 	  
 	  this.element.style[userPrefix.js + 'Transform'] = 'rotateX(' + absoluteY + 'deg) rotateY(' + this.positionX + 'deg)';
 	  
-	  var bgPosition = parseInt($("body").css("background-position-x"));
-	  
-	  console.log("-----------------------------------------------------------------------------");
-	  console.log(this.positionX);
-	  console.log(bgPosition);
-	  console.log("-----------------------------------------------------------------------------");
-	  
-	  $("body").css("background-position-x", "-" + this.positionX + "px");
+	  if(this.down) {
+		//$("body").css("background-position-x", (window.innerWidth - this.lastX) * 3 + "px");
+	  }
 	}
 }
 
