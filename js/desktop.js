@@ -70,10 +70,12 @@ function Toolbar() {
 	}
 	
 	function help() {
+		// Have to append at random place
 		Dialog(Introduction()).appendTo($(".board.current"));
 	}
 	
 	function openPlayer() {
+		// Have to append at random place
 		Dialog(Player()).appendTo($(".board.current"));
 	}
 	

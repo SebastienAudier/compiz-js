@@ -13,7 +13,7 @@ body,
 }
 
 body {
-  background: url("../img/skydom.png");
+  background: #000;
   font-family: 'HelveticaNeue-Light', 'Helvetica Neue Light', 'Helvetica Neue', Helvetica, Arial, 'Lucida Grande', sans-serif;
 }
 

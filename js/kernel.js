@@ -106,13 +106,14 @@ function Viewport(data) {
 
   var self = this;
 
+  this.element = document.getElementsByClassName('cube')[0];
+  
   // Rotation variables
-  this.element = data.element;
-  this.fps = data.fps;
-  this.sensivity = data.sensivity;
-  this.sensivityFade = data.sensivityFade;
-  this.touchSensivity = data.touchSensivity;
-  this.speed = data.speed;
+  this.fps = 30;
+  this.sensivity = 0.1;
+  this.sensivityFade = 0.93;
+  this.touchSensivity = 1.5;
+  this.speed = 1;
   this.lastX = 0;
   this.lastY = 0;
   this.mouseX = 0;
@@ -123,7 +124,7 @@ function Viewport(data) {
   this.positionY = 0;  
   this.torqueX = 0;
   this.torqueY = 0;  
-
+  
   // Transition variables
   this.isOnTransitionToCube = false;
   this.isCubeMode = false;
@@ -144,7 +145,7 @@ function Viewport(data) {
 		side = $(".side.active");
 		self.initCubeTransformation(side);
 		board = $(".board.current");
-		self.transitToCube(board);
+		self.transitToCube(board, side);
 		dialogs = $(".board.current .dialog").toArray();
 		videosPlaying = self.collectVideosPlaying(dialogs);
 		setTimeout(function () {
@@ -244,11 +245,17 @@ function Viewport(data) {
 		}
 	}
 
-	this.transitToCube = function(board) {
-		board.css('width', '500px');
-		board.css('height', '500px');
-		board.css('margin-left', '33%');
-		board.css('margin-top', '10%');
+	this.transitToCube = function(board, side) {
+		
+		var left   = side[0].getBoundingClientRect().left   + $(window)['scrollLeft']();
+		var right  = side[0].getBoundingClientRect().right  + $(window)['scrollLeft']();
+		var top    = side[0].getBoundingClientRect().top    + $(window)['scrollTop']();
+		var bottom = side[0].getBoundingClientRect().bottom + $(window)['scrollTop']();
+		
+		board.css('width', (right - left)  + "px");
+		board.css('height', (bottom - top) + "px");
+		board.css('margin-left', left + "px");
+		board.css('margin-top', top + "px");
 	}
   
 	this.fullScreen = function (aJQuery) {
@@ -294,25 +301,25 @@ function Viewport(data) {
     self.lastY  = self.mouseY;
   });
 
-  bindEvent(document, 'touchmove', function(e) {
+	bindEvent(document, 'touchmove', function(e) {
 	
 	if(e.preventDefault) { 
-      e.preventDefault();
+		e.preventDefault();
     }
 
     if(e.touches.length == 1) {
-      e.touches ? e = e.touches[0] : null;
-      self.mouseX = e.pageX / self.touchSensivity;
-      self.mouseY = e.pageY / self.touchSensivity;
+		e.touches ? e = e.touches[0] : null;
+		self.mouseX = e.pageX / self.touchSensivity;
+		self.mouseY = e.pageY / self.touchSensivity;
 
-    }
-  });
+		}
+	});
 
-  bindEvent(document, 'touchend', function(e) {
-    self.down = false;
-  });  
-
-  setInterval(this.animate.bind(this), this.fps);
+	bindEvent(document, 'touchend', function(e) {
+		self.down = false;
+	});  
+  
+	setInterval(this.animate.bind(this), this.fps);
 }
 
 events.implement(Viewport);
@@ -413,21 +420,16 @@ Viewport.prototype.animate = function() {
 		  absoluteY = Math.min(20, this.positionY);
 	  }
 	  
-	  this.element.style[userPrefix.js + 'Transform'] = 'rotateX(' + absoluteY + 'deg) rotateY(' + this.positionX + 'deg)';
+		this.element.style[userPrefix.js + 'Transform'] = 'rotateX(' + absoluteY + 'deg) rotateY(' + this.positionX + 'deg)';
 	  
-	  if(this.down) {
-		//$("body").css("background-position-x", (window.innerWidth - this.lastX) * 3 + "px");
-	  }
+	  //if(this.down) {
+		//$("body").css("background-position-x", (window.innerWidth - this.lastX) * (2 * this.speed) + "px");
+	  //}
 	}
 }
 
 var viewport = new Viewport({
   element: document.getElementsByClassName('cube')[0],
-  fps: 30,
-  sensivity: .1,
-  sensivityFade: .93,
-  speed: 1,
-  touchSensivity: 1.5
 });
 
 function Cube(data) {
@@ -456,5 +458,5 @@ Cube.prototype.sideChange = function() {
 
 new Cube({
   viewport: viewport,
-  element: document.getElementsByClassName('cube')[0]
+  element: viewport.element
 });
