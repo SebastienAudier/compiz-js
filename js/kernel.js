@@ -164,7 +164,7 @@ function Viewport(data) {
 					layer.css("transform", layer.css("transform").replace(self.defaultZTranslateSide, index));
 					dialog = $(dialogs[i]);	
 					
-					// clone dialog on other component if it is not cloned...
+					self.generateCloneDialogFor(dialog);
 					
 					dialog.detach();
 					$(".cube").append(layer);
@@ -177,6 +177,20 @@ function Viewport(data) {
 				self.isCubeMode = true;
 			}		
 		}, self.delayForTransition);
+	}
+	
+	this.generateCloneDialogFor = function (aDialog) {
+		var left   = aDialog[0].getBoundingClientRect().left   + $(window)['scrollLeft']();
+		var right  = aDialog[0].getBoundingClientRect().right  + $(window)['scrollLeft']();
+		var top    = aDialog[0].getBoundingClientRect().top    + $(window)['scrollTop']();
+		var bottom = aDialog[0].getBoundingClientRect().bottom + $(window)['scrollTop']();
+		
+		console.log(left);
+		console.log(right);
+		console.log(top);
+		console.log(bottom);
+		
+		return false;
 	}
 	
 	this.initCubeTransformation = function(side) {
