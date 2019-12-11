@@ -88,7 +88,7 @@ function Dialog (aWidget) {
 	var dialog;
 
 	that.renderOn = function (html) {
-		dialog = html.div().addClass("dialog").asJQuery();
+		dialog = html.div().addClass("dialog").setAttribute("id", shortId()).asJQuery();
 		head = html.div().addClass("head").asJQuery();
 		head.appendTo(dialog);
 		html.span("x").click(function () { close($(this))}).asJQuery().appendTo(head);
@@ -163,6 +163,22 @@ function Dialog (aWidget) {
 	return that;
 }
 
+function Clone(aDialog) {
+
+	var that = htmlCanvas.widget();
+	
+	that.renderOn = function (html) {
+		clone = html.div().setAttribute("id", "clone-" + aDialog.attr("id")).asJQuery();
+		clone.css("width", aDialog.width());
+		clone.css("height", aDialog.height());
+		clone.css("top", aDialog.position().top);
+		clone.css("left", aDialog.position().left);
+		clone.css("background", "-moz-element(#" + aDialog.attr("id") + ") no-repeat");
+	}
+
+	return that
+}
+
 function Introduction () {	
 	
 	var that = htmlCanvas.widget();
@@ -197,19 +213,30 @@ function Player () {
 		document.getElementById(uuid).play();
 	}
 	
-	function generateUUID() { // Public Domain/MIT
-		var d = new Date().getTime();
-		if (typeof performance !== 'undefined' && typeof performance.now === 'function'){
-			d += performance.now(); //use high-precision timer if available
-		}
-		return 'xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx'.replace(/[xy]/g, function (c) {
-			var r = (d + Math.random() * 16) % 16 | 0;
-			d = Math.floor(d / 16);
-			return (c === 'x' ? r : (r & 0x3 | 0x8)).toString(16);
-		});
-	}
-	
+
 	return that;
 }
-
-
+	
+function generateUUID() {
+	var d = new Date().getTime();
+	if (typeof performance !== 'undefined' && typeof performance.now === 'function'){
+		d += performance.now(); 
+	}
+	return 'xxxxxxxxxxxxxxxxxxxx'.replace(/[xy]/g, function (c) {
+		var r = (d + Math.random() * 16) % 16 | 0;
+		d = Math.floor(d / 16);
+		return (c === 'x' ? r : (r & 0x3 | 0x8)).toString(16);
+	});
+}
+	
+function shortId() {
+	var d = new Date().getTime();
+	if (typeof performance !== 'undefined' && typeof performance.now === 'function'){
+		d += performance.now(); 
+	}
+	return 'cxxxxxxx'.replace(/[xy]/g, function (c) {
+		var r = (d + Math.random() * 16) % 16 | 0;
+		d = Math.floor(d / 16);
+		return (c === 'x' ? r : (r & 0x3 | 0x8)).toString(16);
+	});
+}

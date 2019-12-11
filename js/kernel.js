@@ -164,7 +164,7 @@ function Viewport(data) {
 					layer.css("transform", layer.css("transform").replace(self.defaultZTranslateSide, index));
 					dialog = $(dialogs[i]);	
 					
-					self.generateCloneDialogFor(dialog);
+					self.generateCloneDialogFor(dialog, side, index);
 					
 					dialog.detach();
 					$(".cube").append(layer);
@@ -179,18 +179,27 @@ function Viewport(data) {
 		}, self.delayForTransition);
 	}
 	
-	this.generateCloneDialogFor = function (aDialog) {
-		var left   = aDialog[0].getBoundingClientRect().left   + $(window)['scrollLeft']();
-		var right  = aDialog[0].getBoundingClientRect().right  + $(window)['scrollLeft']();
-		var top    = aDialog[0].getBoundingClientRect().top    + $(window)['scrollTop']();
-		var bottom = aDialog[0].getBoundingClientRect().bottom + $(window)['scrollTop']();
-		
-		console.log(left);
-		console.log(right);
-		console.log(top);
-		console.log(bottom);
-		
-		return false;
+	this.generateCloneDialogFor = function (aDialog, side, index) {
+		if(aDialog.css("right")[0] == '-') {
+			var copyLocation = $($(".side")[side.index() + 1]);
+			var layer = $(document.createElement('div'));
+			layer.copyCSS(copyLocation);
+			layer.addClass("layer");
+			layer.data("index", copyLocation.index());
+			layer.css("transform", layer.css("transform").replace(self.defaultZTranslateSide, index));
+			Clone(aDialog).appendTo(layer);
+			$(".cube").append(layer);
+		}
+		if(aDialog.css("left")[0] == '-') {
+			var copyLocation = $($(".side")[side.index() - 1]);
+			var layer = $(document.createElement('div'));
+			layer.copyCSS(copyLocation);
+			layer.addClass("layer");
+			layer.data("index", copyLocation.index());
+			layer.css("transform", layer.css("transform").replace(self.defaultZTranslateSide, index));
+			Clone(aDialog).appendTo(layer);
+			$(".cube").append(layer);
+		}
 	}
 	
 	this.initCubeTransformation = function(side) {
