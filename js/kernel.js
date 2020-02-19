@@ -186,8 +186,10 @@ function Viewport(data) {
 				rightSide++
 			}
 			copyLocation = $($(".side")[rightSide]);
-			this.configureCloneDialogFor(aDialog, index, copyLocation);
-			layer.css('width', this.updatePixelFormat(layer.css("width"), self.reliefInterval))
+			clonedLayer = this.configureCloneDialogFor(aDialog, index, copyLocation);
+			layer.css('width', this.updatePixelFormat(layer.css("width"), self.reliefInterval));
+			clonedLayer.css('width', this.updatePixelFormat(clonedLayer.css("width"), self.reliefInterval));
+			//clonedLayer.css('left', this.updatePixelFormat(clonedLayer.css("left"), -self.reliefInterval));
 		}
 		if(aDialog.css("left")[0] == '-') {
 			var leftSide = side.index();
@@ -197,9 +199,10 @@ function Viewport(data) {
 				leftSide--
 			}
 			copyLocation = $($(".side")[leftSide]);
-			this.configureCloneDialogFor(aDialog, index, copyLocation);
+			clonedLayer = this.configureCloneDialogFor(aDialog, index, copyLocation);
 			layer.css('width', this.updatePixelFormat(layer.css("width"), self.reliefInterval));
-			layer.css('left', this.updatePixelFormat(layer.css("left"), -self.reliefInterval))
+			layer.css('left', this.updatePixelFormat(layer.css("left"), -self.reliefInterval));
+			//clonedLayer.css('width', this.updatePixelFormat(clonedLayer.css("width"), self.reliefInterval));
 		}
 	}
 
@@ -215,6 +218,7 @@ function Viewport(data) {
 		layer.css("transform", layer.css("transform").replace(self.defaultZTranslateSide, index));
 		Clone(aDialog).appendTo(layer);
 		$(".cube").append(layer);
+		return layer;
 	}
 
 	this.initCubeTransformation = function(side) {

@@ -168,12 +168,16 @@ function Clone(aDialog) {
 	var that = htmlCanvas.widget();
 	
 	that.renderOn = function (html) {
-		clone = html.div().setAttribute("id", "clone-" + aDialog.attr("id")).asJQuery();
-		clone.css("width", aDialog.width());
+		clone = html.div().addClass("clone").setAttribute("id", "clone-" + aDialog.attr("id")).asJQuery();
 		clone.css("height", aDialog.height());
 		clone.css("top", aDialog.position().top);
-		clone.css("left", aDialog.position().left);
-		clone.css("background", "-moz-element(#" + aDialog.attr("id") + ") no-repeat");
+		if(aDialog.css("right")[0] == '-') {	
+			clone.css("left", aDialog.position().right)
+		}	
+		if(aDialog.css("left")[0] == '-') {
+			clone.css("right", aDialog.position().left)
+		}	
+		clone.css("background", "-moz-element(#" + aDialog.attr("id") + ") no-repeat")
 	}
 
 	return that
