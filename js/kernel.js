@@ -163,9 +163,7 @@ function Viewport(data) {
 					layer.data("index", side.index());
 					layer.css("transform", layer.css("transform").replace(self.defaultZTranslateSide, index));
 					dialog = $(dialogs[i]);	
-					
-					self.generateCloneDialogFor(dialog, side, index);
-					
+					self.generateCloneDialogFor(dialog, side, index, layer);
 					dialog.detach();
 					$(".cube").append(layer);
 					layer.append(dialog);
@@ -179,29 +177,46 @@ function Viewport(data) {
 		}, self.delayForTransition);
 	}
 	
-	this.generateCloneDialogFor = function (aDialog, side, index) {
+	this.generateCloneDialogFor = function (aDialog, side, index, layer) {
 		if(aDialog.css("right")[0] == '-') {
-			var copyLocation = $($(".side")[side.index() + 1]);
-			var layer = $(document.createElement('div'));
-			layer.copyCSS(copyLocation);
-			layer.addClass("layer");
-			layer.data("index", copyLocation.index());
-			layer.css("transform", layer.css("transform").replace(self.defaultZTranslateSide, index));
-			Clone(aDialog).appendTo(layer);
-			$(".cube").append(layer);
+			var rightSide = side.index();
+			if(rightSide == 4) {
+				rightSide = 1
+			} else {
+				rightSide++
+			}
+			copyLocation = $($(".side")[rightSide]);
+			this.configureCloneDialogFor(aDialog, index, copyLocation);
+			layer.css('width', this.updatePixelFormat(layer.css("width"), self.reliefInterval))
 		}
 		if(aDialog.css("left")[0] == '-') {
-			var copyLocation = $($(".side")[side.index() - 1]);
-			var layer = $(document.createElement('div'));
-			layer.copyCSS(copyLocation);
-			layer.addClass("layer");
-			layer.data("index", copyLocation.index());
-			layer.css("transform", layer.css("transform").replace(self.defaultZTranslateSide, index));
-			Clone(aDialog).appendTo(layer);
-			$(".cube").append(layer);
+			var leftSide = side.index();
+			if(leftSide == 1) {
+				leftSide = 4
+			} else {
+				leftSide--
+			}
+			copyLocation = $($(".side")[leftSide]);
+			this.configureCloneDialogFor(aDialog, index, copyLocation);
+			layer.css('width', this.updatePixelFormat(layer.css("width"), self.reliefInterval));
+			layer.css('left', this.updatePixelFormat(layer.css("left"), -self.reliefInterval))
 		}
 	}
-	
+
+	this.updatePixelFormat = function (aString, index) {
+		return (parseInt(aString, 10) + index) + 'px'
+	}
+
+	this.configureCloneDialogFor = function (aDialog, index, copyLocation) {
+		var layer = $(document.createElement('div'));
+		layer.copyCSS(copyLocation);
+		layer.addClass("layer");
+		layer.data("index", copyLocation.index());
+		layer.css("transform", layer.css("transform").replace(self.defaultZTranslateSide, index));
+		Clone(aDialog).appendTo(layer);
+		$(".cube").append(layer);
+	}
+
 	this.initCubeTransformation = function(side) {
 		if(side.index() == 1) {
 			self.positionX = 0;
@@ -317,18 +332,18 @@ function Viewport(data) {
 
   bindEvent(document, 'touchstart', function(e) {
 	self.down = true;
-    e.touches ? e = e.touches[0] : null;
-    self.mouseX = e.pageX / self.touchSensivity;
-    self.mouseY = e.pageY / self.touchSensivity;
-    self.lastX  = self.mouseX;
-    self.lastY  = self.mouseY;
+    	e.touches ? e = e.touches[0] : null;
+    	self.mouseX = e.pageX / self.touchSensivity;
+    	self.mouseY = e.pageY / self.touchSensivity;
+    	self.lastX  = self.mouseX;
+    	self.lastY  = self.mouseY;
   });
 
-	bindEvent(document, 'touchmove', function(e) {
+  bindEvent(document, 'touchmove', function(e) {
 	
 	if(e.preventDefault) { 
 		e.preventDefault();
-    }
+ }
 
     if(e.touches.length == 1) {
 		e.touches ? e = e.touches[0] : null;
@@ -349,7 +364,6 @@ events.implement(Viewport);
 Viewport.prototype.animate = function() {
 	
 	if(this.isCubeMode) {
-		
 		
 	  this.distanceX = (this.mouseX - this.lastX);
 	  this.distanceY = (this.mouseY - this.lastY);
@@ -435,19 +449,13 @@ Viewport.prototype.animate = function() {
 		  this.emit('sideChange');
 		}
 	  }
-	  
 	  var absoluteY = 0;
 	  if(this.positionY > 180) {
 		 absoluteY = Math.max(310, this.positionY);
 	  } else {
 		  absoluteY = Math.min(20, this.positionY);
 	  }
-	  
-		this.element.style[userPrefix.js + 'Transform'] = 'rotateX(' + absoluteY + 'deg) rotateY(' + this.positionX + 'deg)';
-	  
-	  //if(this.down) {
-		//$("body").css("background-position-x", (window.innerWidth - this.lastX) * (2 * this.speed) + "px");
-	  //}
+	  this.element.style[userPrefix.js + 'Transform'] = 'rotateX(' + absoluteY + 'deg) rotateY(' + this.positionX + 'deg)';
 	}
 }
 

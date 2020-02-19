@@ -13,7 +13,8 @@ body,
 }
 
 body {
-  background: #000;
+  background-image: url("./../img/bg-3d.png");
+  background-size: 100%;
   font-family: 'HelveticaNeue-Light', 'Helvetica Neue Light', 'Helvetica Neue', Helvetica, Arial, 'Lucida Grande', sans-serif;
 }
 
