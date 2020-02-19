@@ -1,7 +1,7 @@
 
 
 <!--
-Copyright (c) 2018 by icarna (https://codepen.io/icarna/pen/OvpNea)
+Copyright (c) 2018 by Sébastien Audier (sebastien.audier@gmail.com)
 
 
 Fork of an original work by Jordan Leigh (https://codepen.io/jordizle/pen/haIdo)
