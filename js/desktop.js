@@ -198,7 +198,7 @@ function Player () {
 	
 	that.renderOn = function (html) {
 		player = html.div().addClass("player").asJQuery();
-		html.video().setAttribute("id", uuid).setAttribute("src", "./videos/example.mp4").asJQuery().appendTo(player);
+		html.video().setAttribute("id", uuid).setAttribute("src", "./videos/rohirrim1080p.mp4").asJQuery().appendTo(player);
 		buttons = html.div().addClass("buttons").asJQuery();
 		html.img().setAttribute('src', './img/pause.png').click(function () {pause()}).asJQuery().appendTo(buttons);
 		html.img().setAttribute('src', './img/play.png').click(function () {play()}).asJQuery().appendTo(buttons);
