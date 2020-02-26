@@ -189,7 +189,9 @@ function Viewport(data) {
 			clonedLayer = this.configureCloneDialogFor(aDialog, index, copyLocation);
 			layer.css('width', this.updatePixelFormat(layer.css("width"), self.reliefInterval));
 			clonedLayer.css('width', this.updatePixelFormat(clonedLayer.css("width"), self.reliefInterval));
-			//clonedLayer.css('left', this.updatePixelFormat(clonedLayer.css("left"), -self.reliefInterval));
+			transformation = clonedLayer.css("transform").split(",");
+			transformation[14] = self.reliefInterval;
+			clonedLayer.css("transform", transformation.toString());
 		}
 		if(aDialog.css("left")[0] == '-') {
 			var leftSide = side.index();

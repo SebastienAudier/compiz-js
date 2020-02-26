@@ -170,12 +170,12 @@ function Clone(aDialog) {
 	that.renderOn = function (html) {
 		clone = html.div().addClass("clone").setAttribute("id", "clone-" + aDialog.attr("id")).asJQuery();
 		clone.css("height", aDialog.height());
-		clone.css("top", aDialog.position().top);
+		clone.css("top", aDialog.css("top"));
 		if(aDialog.css("right")[0] == '-') {	
-			clone.css("left", aDialog.position().right)
+			clone.css("left", aDialog.css("right"))
 		}	
 		if(aDialog.css("left")[0] == '-') {
-			clone.css("right", aDialog.position().left)
+			clone.css("right", aDialog.css("left"))
 		}	
 		clone.css("background", "-moz-element(#" + aDialog.attr("id") + ") no-repeat")
 	}
