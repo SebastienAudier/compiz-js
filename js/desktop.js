@@ -171,14 +171,21 @@ function Clone(aDialog) {
 		clone = html.div().addClass("clone").setAttribute("id", "clone-" + aDialog.attr("id")).asJQuery();
 		clone.css("height", aDialog.height());
 		clone.css("top", aDialog.css("top"));
-		if(aDialog.css("right")[0] == '-') {	
-			clone.css("left", aDialog.css("right"))
+		if(aDialog.css("right")[0] == '-') {
+			clone.css("left", diff(aDialog, aDialog.css("right")));
 		}	
 		if(aDialog.css("left")[0] == '-') {
 			clone.css("right", aDialog.css("left"))
 		}	
 		clone.css("background", "-moz-element(#" + aDialog.attr("id") + ") no-repeat")
 	}
+
+	function diff(anElement, aStringPixelFormat) {
+		v = anElement.css("width");
+		v = new Number(v.substring(0, v.length - 2));
+		arg = new Number(aStringPixelFormat.substring(0, aStringPixelFormat.length - 2));
+		return  "-" + (v + arg) + "px"
+	}	
 
 	return that
 }
