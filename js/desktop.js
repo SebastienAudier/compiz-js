@@ -96,15 +96,15 @@ function Dialog (aWidget) {
 		content = html.div().addClass("content").asJQuery();
 		aWidget.appendTo(content);
 		content.appendTo(dialog);
-		increaseIndex(dialog);
+		up(dialog);
 		dialog.draggable({
 			cancel: ".content",
-			start: function () {increaseIndex(dialog)},
+			start: function () {up(dialog)},
 			stop: function () {updatePosition(dialog)}
 		});
 		dialog.resizable({
 			autoHide: true,
-			start: function () {increaseIndex(dialog)},
+			start: function () {up(dialog)},
 			stop: function(e, ui) {
 					var parent = ui.element.parent();
 					ui.element.css({
@@ -115,21 +115,23 @@ function Dialog (aWidget) {
 			}
 		});
 		dialog.click(function () {
-			increaseIndex(dialog);
+			up(dialog);
 		});
 	}
 
-	function increaseIndex(anElement) {
-		children = anElement.parent().children();
+	function up(anElement) {
+		children = anElement.parent().children(".dialog");
 		var index = 0;
 		for(var i=0; i<children.length; i++) {
-			if($(children[i]).hasClass("dialog")) {
-				index = Math.max(index, Number($(children[i]).css("z-index")));
-				$(children[i]).css("opacity", "0.9");
-			}
+			index = Math.max(index, Number($(children[i]).css("z-index")));
+			$(children[i]).css("opacity", "0.9");
 		}
 		anElement.css("z-index", index + 1);
 		anElement.css("opacity", "1");
+		children.sort(function(a, b) {return(Number(a.style.zIndex) - Number(b.style.zIndex))});
+		for(var i in children) {
+			$(children[i]).css("z-index", new Number(i) + 1);
+		}
 	}
 	
 	function close(element) {

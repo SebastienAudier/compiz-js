@@ -178,6 +178,7 @@ function Viewport(data) {
 	}
 	
 	this.generateCloneDialogFor = function (aDialog, side, index, layer) {
+		relief = self.reliefInterval * new Number(aDialog.css("z-index"));
 		if(aDialog.css("right")[0] == '-') {
 			var rightSide = side.index();
 			if(rightSide == 4) {
@@ -187,11 +188,11 @@ function Viewport(data) {
 			}
 			copyLocation = $($(".side")[rightSide]);
 			clonedLayer = this.configureCloneDialogFor(aDialog, index, copyLocation);
-			layer.css('width', this.updatePixelFormat(layer.css("width"), self.reliefInterval));
-			clonedLayer.css('width', this.updatePixelFormat(clonedLayer.css("width"), self.reliefInterval));
+			layer.css('width', this.updatePixelFormat(layer.css("width"), relief));
+			clonedLayer.css('width', this.updatePixelFormat(clonedLayer.css("width"), relief));
 			transformation = clonedLayer.css("transform").split(",");
 			if(side.index() == 1) {
-				transformation[14] = self.reliefInterval;
+				transformation[14] = relief;
 			}
 			clonedLayer.css("transform", transformation.toString());
 		}
@@ -204,7 +205,7 @@ function Viewport(data) {
 			}
 			copyLocation = $($(".side")[leftSide]);
 			clonedLayer = this.configureCloneDialogFor(aDialog, index, copyLocation);
-			layer.css('width', this.updatePixelFormat(layer.css("width"), self.reliefInterval));
+			layer.css('width', this.updatePixelFormat(layer.css("width"), relief));
 		}
 	}
 
