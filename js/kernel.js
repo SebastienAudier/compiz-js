@@ -138,7 +138,7 @@ function Viewport(data) {
   this.defaultZTranslateSide = 300; 
   
   // Dialogs variables
-  this.reliefInterval = 50;
+  this.reliefInterval = 40;
 
 	this.switchToCube = function() {
 		self.isOnTransitionToCube = true;
@@ -156,17 +156,17 @@ function Viewport(data) {
 				self.fullScreen(board);
 				dialogs.sort(function(a, b) {return(Number(a.style.zIndex) - Number(b.style.zIndex))});
 				var index = self.defaultZTranslateSide + self.reliefInterval;
-				for(var i=0; i<dialogs.length; i++) {
+				for(i in dialogs) {
 					layer = $(document.createElement('div'));
 					layer.copyCSS(side);
 					layer.addClass("layer");
 					layer.data("index", side.index());
 					layer.css("transform", layer.css("transform").replace(self.defaultZTranslateSide, index));
 					dialog = $(dialogs[i]);	
-					self.generateCloneDialogFor(dialog, side, index, layer);
 					dialog.detach();
 					$(".cube").append(layer);
 					layer.append(dialog);
+					self.generateCloneDialogFor(dialog, side, index, layer);
 					for (var j=0; j < videosPlaying.length; j++) {
 						videosPlaying[j].play();	
 					}
@@ -177,35 +177,41 @@ function Viewport(data) {
 		}, self.delayForTransition);
 	}
 	
-	this.generateCloneDialogFor = function (aDialog, side, index, layer) {
+	this.generateCloneDialogFor = function (aDialog, aSide, index, layer) {
 		relief = self.reliefInterval * new Number(aDialog.css("z-index"));
 		if(aDialog.css("right")[0] == '-') {
-			var rightSide = side.index();
-			if(rightSide == 4) {
-				rightSide = 1
-			} else {
-				rightSide++
-			}
-			copyLocation = $($(".side")[rightSide]);
-			clonedLayer = this.configureCloneDialogFor(aDialog, index, copyLocation);
-			layer.css('width', this.updatePixelFormat(layer.css("width"), relief));
-			clonedLayer.css('width', this.updatePixelFormat(clonedLayer.css("width"), relief));
+			copyLocation = $($(".side")[self.rightSideOf(aSide)]);
+			clonedLayer = self.configureCloneDialogFor(aDialog, index, copyLocation);
+			layer.css('width', self.updatePixelFormat(layer.css("width"), relief));
+			clonedLayer.css('width', self.updatePixelFormat(clonedLayer.css("width"), relief));
 			transformation = clonedLayer.css("transform").split(",");
-			if(side.index() == 1) {
+			if(aSide.index() == 1) {
 				transformation[14] = relief;
 			}
 			clonedLayer.css("transform", transformation.toString());
 		}
 		if(aDialog.css("left")[0] == '-') {
-			var leftSide = side.index();
-			if(leftSide == 1) {
-				leftSide = 4
-			} else {
-				leftSide--
-			}
-			copyLocation = $($(".side")[leftSide]);
-			clonedLayer = this.configureCloneDialogFor(aDialog, index, copyLocation);
-			layer.css('width', this.updatePixelFormat(layer.css("width"), relief));
+			copyLocation = $($(".side")[self.leftSideOf(aSide)]);
+			clonedLayer = self.configureCloneDialogFor(aDialog, index, copyLocation);
+			layer.css('width', self.updatePixelFormat(layer.css("width"), relief));
+		}
+	}
+
+	this.rightSideOf = function(aSide) {
+		var index = aSide.index();
+		if(index == 4) {
+			return 1
+		} else {
+			return index + 1
+		}
+	}
+
+	this.leftSideOf = function(aSide) {
+		var index = aSide.index();
+		if(index == 1) {
+			return 4
+		} else {
+			return index - 1
 		}
 	}
 
