@@ -186,7 +186,7 @@ function Clone(aDialog) {
 		v = anElement.css("width");
 		v = new Number(v.substring(0, v.length - 2));
 		arg = new Number(aStringPixelFormat.substring(0, aStringPixelFormat.length - 2));
-		return  "-" + (v + arg + 6) + "px"
+		return  "-" + (v + arg + 2) + "px"
 	}	
 
 	return that
@@ -211,21 +211,23 @@ function Player () {
 	
 	that.renderOn = function (html) {
 		player = html.div().addClass("player").asJQuery();
-		html.video().setAttribute("id", uuid).setAttribute("src", "./videos/rohirrim1080p.mp4").asJQuery().appendTo(player);
+		video = html.video().setAttribute("id", uuid).setAttribute("src", "./videos/rohirrim1080p.mp4").asJQuery();
+		video.appendTo(player);
 		buttons = html.div().addClass("buttons").asJQuery();
-		html.img().setAttribute('src', './img/pause.png').click(function () {pause()}).asJQuery().appendTo(buttons);
-		html.img().setAttribute('src', './img/play.png').click(function () {play()}).asJQuery().appendTo(buttons);
+		html.div().addClass("state").click(function(){action($(this))}).asJQuery().appendTo(buttons);
 		buttons.appendTo(player);	
 	}
 	
-	function pause() {
-		document.getElementById(uuid).pause();
+	function action (button) {
+		element = document.getElementById(uuid);
+		if(button.hasClass("playing")) {
+			element.pause();
+			button.removeClass("playing");
+		} else {
+			element.play();
+			button.addClass("playing");
+		}
 	}
-
-	function play() {
-		document.getElementById(uuid).play();
-	}
-	
 
 	return that;
 }

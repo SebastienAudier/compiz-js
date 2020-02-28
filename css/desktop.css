@@ -164,23 +164,30 @@
 
 .dialog .player .buttons {
 	margin: 0 auto;
-	width: 20%;
+	width: 40px;
 	height: 10%;
 }
 
-.dialog .buttons img {
-	width: 40%;
-	float: left;
+.dialog .buttons .state {
+	width: 40px;
 	height: 90%;
 	padding: 5%;
 	cursor: pointer;
 	-webkit-border-radius: 6px;
 	-moz-border-radius: 6px;
 	border-radius: 6px;
+	background: url('./../img/play.png') center center no-repeat;
+	background-size: 20px;
 }
 
-.dialog .buttons img:hover {
-	background: #0b0b0b;
+.dialog .buttons .state.playing {
+	background: url(./../img/pause.png) center center no-repeat;
+	background-size: 20px;
+}
+
+.dialog .buttons .state:hover,
+.dialog .buttons .state.playing:hover {
+	background-color: #0b0b0b;
 }
 
 .dialog .content .title {
