@@ -186,7 +186,7 @@ function Clone(aDialog) {
 		v = anElement.css("width");
 		v = new Number(v.substring(0, v.length - 2));
 		arg = new Number(aStringPixelFormat.substring(0, aStringPixelFormat.length - 2));
-		return  "-" + (v + arg) + "px"
+		return  "-" + (v + arg + 6) + "px"
 	}	
 
 	return that

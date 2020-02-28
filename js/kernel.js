@@ -167,7 +167,7 @@ function Viewport(data) {
 					$(".cube").append(layer);
 					layer.append(dialog);
 					self.generateCloneDialogFor(dialog, side, index, layer);
-					for (var j=0; j < videosPlaying.length; j++) {
+					for (j in videosPlaying.length) {
 						videosPlaying[j].play();	
 					}
 					index += self.reliefInterval;
