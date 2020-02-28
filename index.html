@@ -22,7 +22,11 @@
 <body>
 	
 	<script>
-		Desktop().appendTo($("body"));
+		if(navigator.userAgent.toLowerCase().indexOf('firefox') > -1) {
+			Desktop().appendTo($("body"))
+		} else {
+			WarningBrowser().appendTo($('body'))
+		}
 		
 	</script>
 

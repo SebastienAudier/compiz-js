@@ -22,6 +22,19 @@ function Cube() {
 	return that;
 }
 
+function WarningBrowser () {
+	
+	var that = htmlCanvas.widget();
+
+	that.renderOn = function (html) {
+		div = html.div().addClass("warning").asJQuery();
+		html.h1("Sorry, your web browser is not powerful enough to handle the 3d desktop. Please use the following browsers:").asJQuery().appendTo(div);
+		html.img().setAttribute("src", './img/ff.png').click(function() {window.location='https://mozilla.org/en-US/firefox/new'}).asJQuery().appendTo(div)
+	}
+
+	return that
+}
+
 function Desktop() {
 
 	var that = htmlCanvas.widget();
